@@ -407,9 +407,9 @@ const CONFIG = {
   REP_EMAIL:    'hello@coralcovemedia.com',
 
   // ── Airtable (READ-ONLY token — safe to leave in HTML) ──
-  AT_TOKEN:     'patXXXXXXXXXXXXXX.XXXXXXXXXXXXXXXX',   // Read-only PAT from Airtable Developer Hub
-  AT_BASE:      'appXXXXXXXXXXXXXX',                    // Base ID from Airtable URL
-  AT_CLIENT_ID: 'recXXXXXXXXXXXXXX',                    // This client's record ID in Clients table
+  AT_TOKEN:     'patXXXXXXXXXXXXXX.XXXXXXXXXXXXXXXX',   // Read-only PAT — create at airtable.com/create/tokens
+  AT_BASE:      'app7aL2o79DKFOrhT',                    // CCM Client Portal base ID
+  AT_CLIENT_ID: 'recNQXaNBTN6TWNGG',                    // Sarah Johnson's record ID in Clients table
 
   // ── Cloudflare Worker (proxies the write token — never expose write token here) ──
   WORKER_URL:   'https://ccm-portal-proxy.YOURSUBDOMAIN.workers.dev',
@@ -575,7 +575,7 @@ async function fetchMetrics() {
   const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/IG%20Metrics`
     + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',IS_AFTER({timestamp},'${cutoff}'))`
     + `&sort[0][field]=timestamp&sort[0][direction]=desc`;
-  const r = await fetch(url, { headers: { Authorization: `Bearer ${CONFIG.AT_TOK`EN}` } });
+  const r = await fetch(url, { headers: { Authorization: `Bearer ${CONFIG.AT_TOKEN}` } });
   if (!r.ok) throw new Error(`Airtable ${r.status}`);
   const data = await r.json();
   return data.records.map(rec => ({ id: rec.id, ...rec.fields }));
@@ -874,6 +874,7 @@ function fmtN(n) {
   return String(n);
 }
 </script>
+
 
 </body>
 </html>
