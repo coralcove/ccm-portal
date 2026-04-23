@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CCM Portal ‚Äî Sarah Johnson</title>
+<title>CCM Portal — Sarah Johnson</title>
 <style>
 /* ===========================
    CCM CLIENT PORTAL
-   Coral Cove Media ¬∑ v1.0
+   Coral Cove Media · v1.0
    =========================== */
 
 :root {
@@ -49,7 +49,7 @@ body {
   min-height: 100vh;
 }
 
-/* ‚îÄ‚îÄ HEADER ‚îÄ‚îÄ */
+/* ── HEADER ── */
 .header {
   background: var(--navy);
   color: white;
@@ -88,7 +88,7 @@ body {
 }
 .btn-contact:hover { background: var(--coral-dark); }
 
-/* ‚îÄ‚îÄ NAV TABS ‚îÄ‚îÄ */
+/* ── NAV TABS ── */
 .nav-tabs {
   background: var(--white);
   border-bottom: 1px solid var(--gray-200);
@@ -116,7 +116,7 @@ body {
   font-size: 11px; font-weight: 700;
 }
 
-/* ‚îÄ‚îÄ MAIN ‚îÄ‚îÄ */
+/* ── MAIN ── */
 .main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
@@ -125,7 +125,7 @@ body {
 .page-title { font-size: 22px; font-weight: 700; color: var(--gray-800); margin-bottom: 4px; }
 .page-subtitle { font-size: 14px; color: var(--gray-500); }
 
-/* ‚îÄ‚îÄ LOADING & EMPTY ‚îÄ‚îÄ */
+/* ── LOADING & EMPTY ── */
 .loading {
   display: flex; flex-direction: column; align-items: center;
   justify-content: center; padding: 60px 0; gap: 12px; color: var(--gray-400);
@@ -151,7 +151,7 @@ body {
   font-size: 14px; color: var(--red); margin-bottom: 16px;
 }
 
-/* ‚îÄ‚îÄ POST CARDS (QUEUE) ‚îÄ‚îÄ */
+/* ── POST CARDS (QUEUE) ── */
 .posts-grid { display: flex; flex-direction: column; gap: 16px; }
 
 .post-card {
@@ -252,7 +252,7 @@ body {
   color: var(--gray-600); cursor: pointer;
 }
 
-/* ‚îÄ‚îÄ ANALYTICS ‚îÄ‚îÄ */
+/* ── ANALYTICS ── */
 .stats-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;
 }
@@ -304,7 +304,7 @@ body {
 .metric-stat-val   { font-size: 16px; font-weight: 700; color: var(--gray-800); }
 .metric-stat-label { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.3px; }
 
-/* ‚îÄ‚îÄ RECAP ‚îÄ‚îÄ */
+/* ── RECAP ── */
 .recap-hero {
   background: linear-gradient(135deg, var(--navy) 0%, #2B5B8A 100%);
   color: white; border-radius: var(--radius);
@@ -346,7 +346,7 @@ body {
 .next-heading { font-size: 14px; font-weight: 700; color: var(--gray-800); margin-bottom: 3px; }
 .next-body    { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
 
-/* ‚îÄ‚îÄ DELIVERABLES ‚îÄ‚îÄ */
+/* ── DELIVERABLES ── */
 .deliverables-placeholder {
   background: white; border: 1.5px dashed var(--gray-300);
   border-radius: var(--radius); padding: 60px 32px; text-align: center; color: var(--gray-400);
@@ -354,7 +354,7 @@ body {
 .deliverables-placeholder h3 { font-size: 17px; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
 .deliverables-placeholder p  { font-size: 14px; line-height: 1.6; }
 
-/* ‚îÄ‚îÄ CONTACT MODAL ‚îÄ‚îÄ */
+/* ── CONTACT MODAL ── */
 .modal-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.5);
   z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px;
@@ -378,10 +378,10 @@ body {
 .contact-value { font-size: 15px; font-weight: 600; color: var(--gray-800); }
 .contact-value a { color: var(--coral); text-decoration: none; }
 
-/* ‚îÄ‚îÄ FOOTER ‚îÄ‚îÄ */
+/* ── FOOTER ── */
 .footer { text-align: center; padding: 40px 24px 32px; font-size: 12px; color: var(--gray-300); }
 
-/* ‚îÄ‚îÄ RESPONSIVE ‚îÄ‚îÄ */
+/* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   .header-inner { height: 56px; }
   .nav-tabs { top: 56px; }
@@ -394,11 +394,11 @@ body {
 <body>
 
 <!-- ===================================================
-     ‚öôÔ∏è  CONFIG ‚Äî GABE UPDATES THIS PER CLIENT
+     ⚙️  CONFIG — GABE UPDATES THIS PER CLIENT
      =================================================== -->
 <script>
 const CONFIG = {
-  // ‚îÄ‚îÄ Client identity ‚îÄ‚îÄ
+  // ── Client identity ──
   CLIENT_SLUG:  'alex-the-realtor',
   CLIENT_NAME:  'Alex the Realtor',
   CLIENT_CO:    '@yourhomegirlalex',
@@ -406,12 +406,13 @@ const CONFIG = {
   REP_PHONE:    '(904) 478-8600',
   REP_EMAIL:    'Nicole@coralcovemedia.com',
 
-  // ‚îÄ‚îÄ Airtable (READ-ONLY token ‚Äî safe to leave in HTML) ‚îÄ‚îÄ
-  AT_TOKEN:     'patEBUOCGoFVTtzD9.5385b5325b155838919052f3290c7b79e272dd699084d3cc5969530c5b5d15c4',   // Read-only PAT ‚Äî create at airtable.com/create/tokens
+  // ── Airtable (READ-ONLY token — safe to leave in HTML) ──
+  AT_TOKEN:     'patEBUOCGoFVTtzD9.5385b5325b155838919052f3290c7b79e272dd699084d3cc5969530c5b5d15c4',   // Read-only PAT — create at airtable.com/create/tokens
   AT_BASE:      'app7aL2o79DKFOrhT',                    // CCM Client Portal base ID
-  AT_CLIENT_ID: 'recu0ftEYsvuSyBw2',                    // Sarah Johnson's record ID in Clients table
+  AT_CLIENT_ID:     'alex-the-realtor',                    // Client slug — used in Airtable formula filters
+  AT_CLIENT_REC_ID: 'recu0ftEYsvuSyBw2',               // Client record ID — used for linked-record writes
 
-  // ‚îÄ‚îÄ Cloudflare Worker (proxies the write token ‚Äî never expose write token here) ‚îÄ‚îÄ
+  // ── Cloudflare Worker (proxies the write token — never expose write token here) ──
   WORKER_URL:   'https://ccm-portal-proxy.floral-sun-65b8.workers.dev',
 };
 </script>
@@ -447,47 +448,47 @@ const CONFIG = {
 <!-- MAIN CONTENT -->
 <main class="main">
 
-  <!-- ‚îÄ‚îÄ CONTENT QUEUE ‚îÄ‚îÄ -->
+  <!-- ── CONTENT QUEUE ── -->
   <div class="tab-panel active" id="panel-queue">
     <div class="page-header">
       <div class="page-title">Content Queue</div>
       <div class="page-subtitle" id="queue-subtitle">Posts waiting for your review</div>
     </div>
     <div id="queue-content">
-      <div class="loading"><div class="spinner"></div><span>Loading your posts‚Ä¶</span></div>
+      <div class="loading"><div class="spinner"></div><span>Loading your posts…</span></div>
     </div>
   </div>
 
-  <!-- ‚îÄ‚îÄ ANALYTICS ‚îÄ‚îÄ -->
+  <!-- ── ANALYTICS ── -->
   <div class="tab-panel" id="panel-analytics">
     <div class="page-header">
       <div class="page-title">Analytics</div>
-      <div class="page-subtitle">Your Instagram performance ‚Äî last 30 days</div>
+      <div class="page-subtitle">Your Instagram performance — last 30 days</div>
     </div>
     <div id="analytics-content">
-      <div class="loading"><div class="spinner"></div><span>Loading analytics‚Ä¶</span></div>
+      <div class="loading"><div class="spinner"></div><span>Loading analytics…</span></div>
     </div>
   </div>
 
-  <!-- ‚îÄ‚îÄ MONTHLY RECAP ‚îÄ‚îÄ -->
+  <!-- ── MONTHLY RECAP ── -->
   <div class="tab-panel" id="panel-recap">
     <div class="page-header">
       <div class="page-title">Monthly Recap</div>
       <div class="page-subtitle">Your latest performance summary from Coral Cove Media</div>
     </div>
     <div id="recap-content">
-      <div class="loading"><div class="spinner"></div><span>Loading recap‚Ä¶</span></div>
+      <div class="loading"><div class="spinner"></div><span>Loading recap…</span></div>
     </div>
   </div>
 
-  <!-- ‚îÄ‚îÄ DELIVERABLES ‚îÄ‚îÄ -->
+  <!-- ── DELIVERABLES ── -->
   <div class="tab-panel" id="panel-deliverables">
     <div class="page-header">
       <div class="page-title">Deliverables</div>
       <div class="page-subtitle">Photos, videos, and assets from your shoots</div>
     </div>
     <div class="deliverables-placeholder">
-      <div style="font-size:40px;margin-bottom:12px">üì¶</div>
+      <div style="font-size:40px;margin-bottom:12px">📦</div>
       <h3>Coming Soon</h3>
       <p>Your deliverables library will appear here after each shoot.<br>
       Check back after your next content day.</p>
@@ -530,11 +531,11 @@ const CONFIG = {
      JAVASCRIPT
      =================================================== -->
 <script>
-// ‚îÄ‚îÄ STATE ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── STATE ──────────────────────────────────────────
 let analyticsLoaded   = false;
 let recapLoaded       = false;
 
-// ‚îÄ‚îÄ INIT ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── INIT ───────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('hdr-name').textContent  = CONFIG.CLIENT_NAME;
   document.getElementById('hdr-co').textContent    = CONFIG.CLIENT_CO;
@@ -547,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadQueue();
 });
 
-// ‚îÄ‚îÄ TAB SWITCHING ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── TAB SWITCHING ──────────────────────────────────
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -557,7 +558,7 @@ function switchTab(tab) {
   if (tab === 'recap'      && !recapLoaded)       loadRecap();
 }
 
-// ‚îÄ‚îÄ FETCH: POSTS ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── FETCH: POSTS ───────────────────────────────────
 async function fetchPosts() {
   const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/Posts`
     + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',{client_status}='Pending')`
@@ -568,7 +569,7 @@ async function fetchPosts() {
   return d.records.map(rec => ({ id: rec.id, ...rec.fields }));
 }
 
-// ‚îÄ‚îÄ FETCH: IG METRICS ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── FETCH: IG METRICS ──────────────────────────────
 async function fetchMetrics() {
   const d = new Date(); d.setDate(d.getDate() - 30);
   const cutoff = d.toISOString().slice(0, 10);
@@ -581,7 +582,7 @@ async function fetchMetrics() {
   return data.records.map(rec => ({ id: rec.id, ...rec.fields }));
 }
 
-// ‚îÄ‚îÄ FETCH: RECAP ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── FETCH: RECAP ───────────────────────────────────
 async function fetchRecap() {
   const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/Recap`
     + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',{status}='Live')`
@@ -603,7 +604,7 @@ async function fetchRecap() {
   };
 }
 
-// ‚îÄ‚îÄ POST: SUBMIT APPROVAL (via Cloudflare Worker) ‚îÄ‚îÄ
+// ── POST: SUBMIT APPROVAL (via Cloudflare Worker) ──
 async function submitApproval(postRecordId, action, notes) {
   const r = await fetch(CONFIG.WORKER_URL, {
     method: 'POST',
@@ -611,7 +612,7 @@ async function submitApproval(postRecordId, action, notes) {
     body: JSON.stringify({
       fields: {
         post:      [postRecordId],
-        client:    [CONFIG.AT_CLIENT_ID],
+        client:    [CONFIG.AT_CLIENT_REC_ID],
         action,
         notes:     notes || '',
         timestamp: new Date().toISOString(),
@@ -622,7 +623,7 @@ async function submitApproval(postRecordId, action, notes) {
   return r.json();
 }
 
-// ‚îÄ‚îÄ RENDER: QUEUE ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── RENDER: QUEUE ──────────────────────────────────
 async function loadQueue() {
   const el = document.getElementById('queue-content');
   try {
@@ -642,7 +643,7 @@ async function loadQueue() {
     }
     el.innerHTML = `<div class="posts-grid">${posts.map(renderPostCard).join('')}</div>`;
   } catch(e) {
-    el.innerHTML = `<div class="error-banner">Unable to load posts ‚Äî please refresh. (${esc(e.message)})</div>`;
+    el.innerHTML = `<div class="error-banner">Unable to load posts — please refresh. (${esc(e.message)})</div>`;
   }
 }
 
@@ -656,7 +657,7 @@ function renderPostCard(p) {
 <div class="post-card" id="card-${p.id}">
   <div class="post-card-header">
     <div class="post-meta">
-      <div class="post-emoji">${esc(p.emoji||'üìÑ')}</div>
+      <div class="post-emoji">${esc(p.emoji||'📄')}</div>
       <div class="post-info">
         <div class="post-title">${esc(p.title||'Untitled Post')}</div>
         <div class="post-date">${dateStr}</div>
@@ -679,7 +680,7 @@ function renderPostCard(p) {
     <button class="btn-revision"  onclick="showRevForm('${p.id}')">&#x270E; Request Changes</button>
   </div>
   <div class="revision-form" id="rf-${p.id}">
-    <textarea id="rn-${p.id}" placeholder="Describe the changes you'd like‚Ä¶" rows="3"></textarea>
+    <textarea id="rn-${p.id}" placeholder="Describe the changes you'd like…" rows="3"></textarea>
     <div class="revision-form-actions">
       <button class="btn-submit-revision" id="rsub-${p.id}" onclick="doRevision('${p.id}')">Send Feedback</button>
       <button class="btn-cancel-revision" onclick="hideRevForm('${p.id}')">Cancel</button>
@@ -688,7 +689,7 @@ function renderPostCard(p) {
 </div>`;
 }
 
-// ‚îÄ‚îÄ QUEUE ACTIONS ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── QUEUE ACTIONS ──────────────────────────────────
 function toggleCap(id) {
   const el = document.getElementById(`cap-${id}`);
   const btn = el.nextElementSibling;
@@ -707,15 +708,15 @@ async function doApprove(id) {
   const cardEl  = document.getElementById(`card-${id}`);
   const btnA = actEl.querySelector('.btn-approve');
   const btnR = actEl.querySelector('.btn-revision');
-  btnA.disabled = btnR.disabled = true; btnA.textContent = 'Sending‚Ä¶';
+  btnA.disabled = btnR.disabled = true; btnA.textContent = 'Sending…';
   try {
     await submitApproval(id, 'Approved', '');
     cardEl.classList.add('approved');
     badgeEl.className = 'status-badge badge-approved'; badgeEl.textContent = 'Approved';
-    actEl.innerHTML = `<div class="action-result">&#x2713; Approved ‚Äî Coral Cove Media has been notified</div>`;
+    actEl.innerHTML = `<div class="action-result">&#x2713; Approved — Coral Cove Media has been notified</div>`;
     bumpBadge(-1);
   } catch(e) {
-    btnA.disabled = btnR.disabled = false; btnA.textContent = '‚úì Approve';
+    btnA.disabled = btnR.disabled = false; btnA.textContent = '✓ Approve';
     alert('Something went wrong. Please try again or contact your rep.');
   }
 }
@@ -728,12 +729,12 @@ async function doRevision(id) {
   const cardEl  = document.getElementById(`card-${id}`);
   const rfEl   = document.getElementById(`rf-${id}`);
   const subBtn = document.getElementById(`rsub-${id}`);
-  subBtn.disabled = true; subBtn.textContent = 'Sending‚Ä¶';
+  subBtn.disabled = true; subBtn.textContent = 'Sending…';
   try {
     await submitApproval(id, 'Revision Requested', notes);
     cardEl.classList.add('revision');
     badgeEl.className = 'status-badge badge-revision'; badgeEl.textContent = 'Changes Requested';
-    actEl.innerHTML = `<div class="action-result revision-sent">&#x270E; Feedback sent ‚Äî we'll be in touch soon</div>`;
+    actEl.innerHTML = `<div class="action-result revision-sent">&#x270E; Feedback sent — we'll be in touch soon</div>`;
     rfEl.classList.remove('visible');
     bumpBadge(-1);
   } catch(e) {
@@ -748,7 +749,7 @@ function bumpBadge(delta) {
   if (n <= 0) b.style.display = 'none'; else b.textContent = n;
 }
 
-// ‚îÄ‚îÄ RENDER: ANALYTICS ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── RENDER: ANALYTICS ──────────────────────────────
 async function loadAnalytics() {
   analyticsLoaded = true;
   const el = document.getElementById('analytics-content');
@@ -785,7 +786,7 @@ async function loadAnalytics() {
     html += `<div class="metrics-grid">${metrics.map(renderMetricCard).join('')}</div>`;
     el.innerHTML = html;
   } catch(e) {
-    el.innerHTML = `<div class="error-banner">Unable to load analytics ‚Äî please refresh. (${esc(e.message)})</div>`;
+    el.innerHTML = `<div class="error-banner">Unable to load analytics — please refresh. (${esc(e.message)})</div>`;
   }
 }
 
@@ -810,7 +811,7 @@ function renderMetricCard(m) {
   </div>`;
 }
 
-// ‚îÄ‚îÄ RENDER: RECAP ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── RENDER: RECAP ──────────────────────────────────
 async function loadRecap() {
   recapLoaded = true;
   const el = document.getElementById('recap-content');
@@ -852,16 +853,16 @@ async function loadRecap() {
 
     el.innerHTML = html;
   } catch(e) {
-    el.innerHTML = `<div class="error-banner">Unable to load recap ‚Äî please refresh. (${esc(e.message)})</div>`;
+    el.innerHTML = `<div class="error-banner">Unable to load recap — please refresh. (${esc(e.message)})</div>`;
   }
 }
 
-// ‚îÄ‚îÄ CONTACT MODAL ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── CONTACT MODAL ──────────────────────────────────
 function openContact()  { document.getElementById('contact-modal').classList.add('open'); }
 function closeContact() { document.getElementById('contact-modal').classList.remove('open'); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContact(); });
 
-// ‚îÄ‚îÄ UTILS ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ── UTILS ──────────────────────────────────────────
 function safeParse(s, fb) { try { return JSON.parse(s||'[]'); } catch { return fb; } }
 function esc(s) {
   return String(s)
