@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCM Portal — Coral Cove Media</title>
+<style>
+/* ===========================
+   CCM CLIENT PORTAL
+   Coral Cove Media · v1.0
+   =========================== */
+
+:root {
+  --coral:        #E07A5F;
+  --coral-dark:   #C25A3F;
+  --coral-light:  #F4DED8;
+  --navy:         #1A2B4B;
+  --blue:         #3D7EAA;
+  --blue-light:   #EBF4FA;
+  --green:        #48BB78;
+  --green-light:  #E8F8F0;
+  --amber:        #D4A017;
+  --amber-light:  #FEF9E7;
+  --red:          #E53E3E;
+  --red-light:    #FEE2E2;
+  --gray-50:      #F8F9FA;
+  --gray-100:     #F1F3F5;
+  --gray-200:     #E8EDF2;
+  --gray-300:     #CBD5E0;
+  --gray-400:     #A0AEC0;
+  --gray-500:     #718096;
+  --gray-600:     #4A5568;
+  --gray-700:     #2D3748;
+  --gray-800:     #1A202C;
+  --white:        #FFFFFF;
+  --radius:       12px;
+  --radius-sm:    8px;
+  --shadow:       0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md:    0 4px 16px rgba(0,0,0,0.12);
+  --font:         -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--gray-50);
+  color: var(--gray-800);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--navy);
+  color: white;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: 16px;
+}
+.header-brand { display: flex; align-items: center; gap: 12px; }
+.brand-logo {
+  width: 38px; height: 38px;
+  background: var(--coral);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px; letter-spacing: -0.5px; color: white;
+  flex-shrink: 0;
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1; gap: 2px; }
+.brand-agency { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.7px; text-transform: uppercase; }
+.header-client-name { font-size: 17px; font-weight: 700; color: white; }
+.header-client-co { font-size: 12px; color: rgba(255,255,255,0.45); }
+.btn-contact {
+  background: var(--coral); color: white; border: none;
+  border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600;
+  cursor: pointer; white-space: nowrap; transition: background 0.15s;
+}
+.btn-contact:hover { background: var(--coral-dark); }
+
+/* ── NAV TABS ── */
+.nav-tabs {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  position: sticky; top: 64px; z-index: 90;
+}
+.nav-tabs-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; padding: 0 24px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.nav-tabs-inner::-webkit-scrollbar { display: none; }
+.tab-btn {
+  background: none; border: none;
+  border-bottom: 3px solid transparent;
+  padding: 14px 16px; font-size: 14px; font-weight: 500;
+  color: var(--gray-500); cursor: pointer; white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.tab-btn:hover { color: var(--gray-800); }
+.tab-btn.active { color: var(--coral); border-bottom-color: var(--coral); font-weight: 600; }
+.tab-badge {
+  background: var(--coral); color: white;
+  border-radius: 10px; padding: 1px 7px;
+  font-size: 11px; font-weight: 700;
+}
+
+/* ── MAIN ── */
+.main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.page-header { margin-bottom: 24px; }
+.page-title { font-size: 22px; font-weight: 700; color: var(--gray-800); margin-bottom: 4px; }
+.page-subtitle { font-size: 14px; color: var(--gray-500); }
+
+/* ── LOADING & EMPTY ── */
+.loading {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 60px 0; gap: 12px; color: var(--gray-400);
+}
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--gray-200); border-top-color: var(--coral);
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 60px 32px; text-align: center; color: var(--gray-500);
+}
+.empty-icon { font-size: 40px; margin-bottom: 12px; }
+.empty-state h3 { font-size: 17px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; }
+.empty-state p { font-size: 14px; line-height: 1.6; }
+
+.error-banner {
+  background: var(--red-light); border: 1px solid var(--red);
+  border-radius: 8px; padding: 12px 16px;
+  font-size: 14px; color: var(--red); margin-bottom: 16px;
+}
+
+/* ── POST CARDS (QUEUE) ── */
+.posts-grid { display: flex; flex-direction: column; gap: 16px; }
+
+.post-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); transition: box-shadow 0.15s;
+}
+.post-card:hover { box-shadow: var(--shadow-md); }
+.post-card.approved { border-color: var(--green); background: var(--green-light); }
+.post-card.revision  { border-color: var(--amber); background: var(--amber-light); }
+
+.post-card-header {
+  padding: 16px 20px 12px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+}
+.post-meta { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.post-emoji { font-size: 28px; flex-shrink: 0; line-height: 1; }
+.post-info { min-width: 0; }
+.post-title {
+  font-size: 16px; font-weight: 700; color: var(--gray-800);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px;
+}
+.post-date { font-size: 13px; color: var(--gray-500); }
+
+.status-badge { flex-shrink: 0; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-pending  { background: var(--gray-100); color: var(--gray-600); }
+.badge-approved { background: var(--green-light); color: #276749; }
+.badge-revision { background: var(--amber-light); color: #7B4F00; }
+
+.post-tags { padding: 0 20px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.tag-platform { background: var(--blue-light); color: var(--blue); }
+.tag-type { background: var(--gray-100); color: var(--gray-600); }
+
+.post-caption { padding: 0 20px 14px; }
+.caption-text {
+  font-size: 14px; color: var(--gray-700); line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.caption-text.expanded { -webkit-line-clamp: unset; }
+.caption-toggle {
+  background: none; border: none; color: var(--coral);
+  font-size: 13px; font-weight: 600; cursor: pointer; padding: 4px 0 0; display: block;
+}
+
+.preview-note { padding: 0 20px 14px; }
+.preview-note-inner {
+  background: var(--gray-50); border: 1px solid var(--gray-200);
+  border-radius: 8px; padding: 10px 12px; font-size: 13px; color: var(--gray-500);
+}
+
+.post-actions {
+  padding: 12px 20px 16px; border-top: 1px solid var(--gray-200);
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.btn-approve {
+  background: var(--green); color: white; border: none;
+  border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-approve:hover  { background: #38A169; transform: translateY(-1px); }
+.btn-approve:active { transform: translateY(0); }
+.btn-approve:disabled { background: var(--gray-300); cursor: not-allowed; transform: none; }
+
+.btn-revision {
+  background: white; color: var(--gray-700);
+  border: 1.5px solid var(--gray-300); border-radius: 8px;
+  padding: 10px 20px; font-size: 14px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: border-color 0.15s, color 0.15s, transform 0.1s;
+}
+.btn-revision:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-1px); }
+.btn-revision:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.action-result { font-size: 14px; font-weight: 600; color: var(--green); display: flex; align-items: center; gap: 6px; }
+.action-result.revision-sent { color: var(--amber); }
+
+.revision-form { padding: 0 20px 16px; display: none; }
+.revision-form.visible { display: block; }
+.revision-form textarea {
+  width: 100%; border: 1.5px solid var(--gray-300); border-radius: 8px;
+  padding: 12px; font-size: 14px; font-family: var(--font); color: var(--gray-800);
+  resize: vertical; min-height: 90px; outline: none; transition: border-color 0.15s;
+}
+.revision-form textarea:focus { border-color: var(--coral); }
+.revision-form-actions { display: flex; gap: 8px; margin-top: 10px; }
+.btn-submit-revision {
+  background: var(--coral); color: white; border: none;
+  border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-submit-revision:hover { background: var(--coral-dark); }
+.btn-submit-revision:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-cancel-revision {
+  background: none; border: 1.5px solid var(--gray-300);
+  border-radius: 8px; padding: 9px 14px; font-size: 13px; font-weight: 500;
+  color: var(--gray-600); cursor: pointer;
+}
+
+/* ── ANALYTICS ── */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;
+}
+@media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.stat-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+}
+.stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-400); margin-bottom: 8px; }
+.stat-value { font-size: 28px; font-weight: 800; color: var(--gray-800); line-height: 1; margin-bottom: 4px; }
+.stat-sub   { font-size: 12px; color: var(--gray-400); }
+
+.win-spotlight {
+  background: linear-gradient(135deg, #fffbf0, #fff8e6);
+  border: 1px solid #F6C90E; border-radius: var(--radius);
+  padding: 20px; margin-bottom: 24px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.win-icon    { font-size: 28px; flex-shrink: 0; }
+.win-label   { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--amber); margin-bottom: 4px; }
+.win-title   { font-size: 16px; font-weight: 700; color: var(--gray-800); margin-bottom: 4px; }
+.win-note-txt { font-size: 14px; color: var(--gray-600); }
+
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+
+.metric-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); position: relative;
+}
+.metric-card.is-win { border-color: #F6C90E; }
+.win-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: #F6C90E; color: #7B4F00;
+  border-radius: 20px; padding: 3px 9px; font-size: 11px; font-weight: 700; z-index: 1;
+}
+.metric-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--gray-100); }
+.metric-thumb-ph {
+  width: 100%; aspect-ratio: 1; background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; color: var(--gray-300);
+}
+.metric-body { padding: 14px; }
+.metric-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.metric-date  { font-size: 12px; color: var(--gray-400); margin-bottom: 10px; }
+.metric-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.metric-stat  { display: flex; flex-direction: column; }
+.metric-stat-val   { font-size: 16px; font-weight: 700; color: var(--gray-800); }
+.metric-stat-label { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.3px; }
+
+/* ── RECAP ── */
+.recap-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, #2B5B8A 100%);
+  color: white; border-radius: var(--radius);
+  padding: 32px; margin-bottom: 20px;
+  position: relative; overflow: hidden;
+}
+.recap-hero::before {
+  content: ''; position: absolute; right: -30px; top: -30px;
+  width: 180px; height: 180px; background: rgba(255,255,255,0.04); border-radius: 50%;
+}
+.recap-month-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.55); margin-bottom: 10px; }
+.recap-note-text   { font-size: 16px; line-height: 1.7; color: white; margin-bottom: 18px; }
+.recap-from        { font-size: 13px; color: rgba(255,255,255,0.55); }
+
+.recap-section {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 24px; margin-bottom: 14px; box-shadow: var(--shadow);
+}
+.recap-section-title {
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--gray-400); margin-bottom: 16px;
+}
+
+.wins-list { display: flex; flex-direction: column; gap: 10px; }
+.win-row   { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--gray-700); line-height: 1.5; }
+.win-check {
+  width: 22px; height: 22px; background: var(--green);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 12px; flex-shrink: 0; margin-top: 1px;
+}
+
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 600px) { .strategy-grid { grid-template-columns: 1fr; } }
+.strategy-item { display: flex; align-items: flex-start; gap: 10px; }
+.strategy-emoji { font-size: 20px; flex-shrink: 0; line-height: 1.3; }
+.strategy-text  { font-size: 14px; color: var(--gray-700); line-height: 1.5; }
+
+.next-grid { display: flex; flex-direction: column; gap: 14px; }
+.next-heading { font-size: 14px; font-weight: 700; color: var(--gray-800); margin-bottom: 3px; }
+.next-body    { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
+
+/* ── DELIVERABLES ── */
+.deliverables-placeholder {
+  background: white; border: 1.5px dashed var(--gray-300);
+  border-radius: var(--radius); padding: 60px 32px; text-align: center; color: var(--gray-400);
+}
+.deliverables-placeholder h3 { font-size: 17px; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
+.deliverables-placeholder p  { font-size: 14px; line-height: 1.6; }
+
+/* ── CONTACT MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: white; border-radius: var(--radius); padding: 32px;
+  max-width: 400px; width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  transform: translateY(8px); transition: transform 0.2s;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-header  { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.modal-title   { font-size: 18px; font-weight: 700; color: var(--gray-800); }
+.modal-close   { background: none; border: none; font-size: 20px; color: var(--gray-400); cursor: pointer; padding: 0; line-height: 1; }
+.contact-row   { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
+.contact-row:last-child { border-bottom: none; }
+.contact-icon  { width: 40px; height: 40px; background: var(--coral-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.contact-label { font-size: 12px; color: var(--gray-400); margin-bottom: 2px; }
+.contact-value { font-size: 15px; font-weight: 600; color: var(--gray-800); }
+.contact-value a { color: var(--coral); text-decoration: none; }
+
+/* ── FOOTER ── */
+.footer { text-align: center; padding: 40px 24px 32px; font-size: 12px; color: var(--gray-300); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .header-inner { height: 56px; }
+  .nav-tabs { top: 56px; }
+  .main { padding: 20px 16px; }
+  .post-actions { flex-direction: column; align-items: stretch; }
+  .btn-approve, .btn-revision { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================================================
+     ⚙️  CONFIG — GABE UPDATES THIS PER CLIENT
+     =================================================== -->
+<script>
+const CONFIG = {
+  // ── Client identity ──
+  CLIENT_SLUG:  'coral-cove-media',
+  CLIENT_NAME:  'Coral Cove Media',
+  CLIENT_CO:    '@coralcovemedia',
+  REP_NAME:     'Nicole Scardina',
+  REP_PHONE:    '(904) 478-8600',
+  REP_EMAIL:    'Nicole@coralcovemedia.com',
+
+  // ── Airtable (READ-ONLY token — safe to leave in HTML) ──
+  AT_TOKEN:     'patEBUOCGoFVTtzD9.5385b5325b155838919052f3290c7b79e272dd699084d3cc5969530c5b5d15c4',   // Read-only PAT
+  AT_BASE:      'app7aL2o79DKFOrhT',                    // CCM Client Portal base ID
+  AT_CLIENT_ID:     'coral-cove-media',                 // Client slug — used in Airtable formula filters
+  AT_CLIENT_REC_ID: 'recBvG80rLPBqhboy',               // Client record ID — used for linked-record writes
+
+  // ── Cloudflare Worker (proxies the write token — never expose write token here) ──
+  WORKER_URL:   'https://ccm-portal-proxy.floral-sun-65b8.workers.dev',
+};
+</script>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="brand-logo">CCM</div>
+      <div class="brand-text">
+        <span class="brand-agency">Coral Cove Media</span>
+        <span class="header-client-name" id="hdr-name"></span>
+        <span class="header-client-co"   id="hdr-co"></span>
+      </div>
+    </div>
+    <button class="btn-contact" onclick="openContact()">Contact Rep</button>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs">
+  <div class="nav-tabs-inner">
+    <button class="tab-btn active" data-tab="queue"        onclick="switchTab('queue')">
+      Content Queue
+      <span class="tab-badge" id="queue-badge" style="display:none"></span>
+    </button>
+    <button class="tab-btn"        data-tab="analytics"    onclick="switchTab('analytics')">Analytics</button>
+    <button class="tab-btn"        data-tab="recap"        onclick="switchTab('recap')">Monthly Recap</button>
+    <button class="tab-btn"        data-tab="deliverables" onclick="switchTab('deliverables')">Deliverables</button>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ── CONTENT QUEUE ── -->
+  <div class="tab-panel active" id="panel-queue">
+    <div class="page-header">
+      <div class="page-title">Content Queue</div>
+      <div class="page-subtitle" id="queue-subtitle">Posts waiting for your review</div>
+    </div>
+    <div id="queue-content">
+      <div class="loading"><div class="spinner"></div><span>Loading your posts…</span></div>
+    </div>
+  </div>
+
+  <!-- ── ANALYTICS ── -->
+  <div class="tab-panel" id="panel-analytics">
+    <div class="page-header">
+      <div class="page-title">Analytics</div>
+      <div class="page-subtitle">Your Instagram performance — last 30 days</div>
+    </div>
+    <div id="analytics-content">
+      <div class="loading"><div class="spinner"></div><span>Loading analytics…</span></div>
+    </div>
+  </div>
+
+  <!-- ── MONTHLY RECAP ── -->
+  <div class="tab-panel" id="panel-recap">
+    <div class="page-header">
+      <div class="page-title">Monthly Recap</div>
+      <div class="page-subtitle">Your latest performance summary from Coral Cove Media</div>
+    </div>
+    <div id="recap-content">
+      <div class="loading"><div class="spinner"></div><span>Loading recap…</span></div>
+    </div>
+  </div>
+
+  <!-- ── DELIVERABLES ── -->
+  <div class="tab-panel" id="panel-deliverables">
+    <div class="page-header">
+      <div class="page-title">Deliverables</div>
+      <div class="page-subtitle">Photos, videos, and assets from your shoots</div>
+    </div>
+    <div class="deliverables-placeholder">
+      <div style="font-size:40px;margin-bottom:12px">📦</div>
+      <h3>Coming Soon</h3>
+      <p>Your deliverables library will appear here after each shoot.<br>
+      Check back after your next content day.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  Coral Cove Media &middot; <span id="ftr-name"></span> &middot; Content Portal
+</footer>
+
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contact-modal" onclick="if(event.target===this)closeContact()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Your Account Rep</div>
+      <button class="modal-close" onclick="closeContact()">&#x2715;</button>
+    </div>
+    <div class="contact-row">
+      <div class="contact-icon">&#x1F464;</div>
+      <div><div class="contact-label">Name</div><div class="contact-value" id="c-name"></div></div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-icon">&#x1F4DE;</div>
+      <div><div class="contact-label">Phone</div>
+        <div class="contact-value"><a id="c-phone-a" href=""><span id="c-phone"></span></a></div>
+      </div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-icon">&#x2709;&#xFE0F;</div>
+      <div><div class="contact-label">Email</div>
+        <div class="contact-value"><a id="c-email-a" href=""><span id="c-email"></span></a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     JAVASCRIPT
+     =================================================== -->
+<script>
+// ── STATE ──────────────────────────────────────────
+let analyticsLoaded   = false;
+let recapLoaded       = false;
+
+// ── INIT ───────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('hdr-name').textContent  = CONFIG.CLIENT_NAME;
+  document.getElementById('hdr-co').textContent    = CONFIG.CLIENT_CO;
+  document.getElementById('ftr-name').textContent  = CONFIG.CLIENT_NAME;
+  document.getElementById('c-name').textContent    = CONFIG.REP_NAME;
+  document.getElementById('c-phone').textContent   = CONFIG.REP_PHONE;
+  document.getElementById('c-email').textContent   = CONFIG.REP_EMAIL;
+  document.getElementById('c-phone-a').href = 'tel:' + CONFIG.REP_PHONE.replace(/\D/g, '');
+  document.getElementById('c-email-a').href = 'mailto:' + CONFIG.REP_EMAIL;
+  loadQueue();
+});
+
+// ── TAB SWITCHING ──────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  if (tab === 'analytics'  && !analyticsLoaded)  loadAnalytics();
+  if (tab === 'recap'      && !recapLoaded)       loadRecap();
+}
+
+// ── FETCH: POSTS ───────────────────────────────────
+async function fetchPosts() {
+  const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/Posts`
+    + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',{client_status}='Pending')`
+    + `&sort[0][field]=scheduled_date&sort[0][direction]=asc`;
+  const r = await fetch(url, { headers: { Authorization: `Bearer ${CONFIG.AT_TOKEN}` } });
+  if (!r.ok) throw new Error(`Airtable ${r.status}`);
+  const d = await r.json();
+  return d.records.map(rec => ({ id: rec.id, ...rec.fields }));
+}
+
+// ── FETCH: IG METRICS ──────────────────────────────
+async function fetchMetrics() {
+  const d = new Date(); d.setDate(d.getDate() - 30);
+  const cutoff = d.toISOString().slice(0, 10);
+  const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/IG%20Metrics`
+    + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',IS_AFTER({timestamp},'${cutoff}'))`
+    + `&sort[0][field]=timestamp&sort[0][direction]=desc`;
+  const r = await fetch(url, { headers: { Authorization: `Bearer ${CONFIG.AT_TOKEN}` } });
+  if (!r.ok) throw new Error(`Airtable ${r.status}`);
+  const data = await r.json();
+  return data.records.map(rec => ({ id: rec.id, ...rec.fields }));
+}
+
+// ── FETCH: RECAP ───────────────────────────────────
+async function fetchRecap() {
+  const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/Recap`
+    + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',{status}='Live')`
+    + `&sort[0][field]=generated_at&sort[0][direction]=desc&maxRecords=1`;
+  const r = await fetch(url, { headers: { Authorization: `Bearer ${CONFIG.AT_TOKEN}` } });
+  if (!r.ok) throw new Error(`Airtable ${r.status}`);
+  const data = await r.json();
+  if (!data.records.length) return null;
+  const f = data.records[0].fields;
+  return {
+    month:       f.month,
+    note:        f.note,
+    wins:        parseLineList(f.wins,        []),
+    doing_more:  parseLineList(f.doing_more,  []),
+    doing_less:  parseLineList(f.doing_less,  []),
+    next_month:  f.next_month || '',
+    rep_name:    f.rep_name  || CONFIG.REP_NAME,
+    rep_title:   f.rep_title || 'Account Manager, Coral Cove Media',
+  };
+}
+
+// ── POST: SUBMIT APPROVAL (via Cloudflare Worker) ──
+async function submitApproval(postRecordId, action, notes) {
+  const r = await fetch(CONFIG.WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fields: {
+        post:      [postRecordId],
+        client:    [CONFIG.AT_CLIENT_REC_ID],
+        action,
+        notes:     notes || '',
+        timestamp: new Date().toISOString(),
+      }
+    })
+  });
+  if (!r.ok) throw new Error(`Worker ${r.status}`);
+  return r.json();
+}
+
+// ── RENDER: QUEUE ──────────────────────────────────
+async function loadQueue() {
+  const el = document.getElementById('queue-content');
+  try {
+    const posts = await fetchPosts();
+    const badge = document.getElementById('queue-badge');
+    if (posts.length > 0) { badge.textContent = posts.length; badge.style.display = 'inline-block'; }
+    document.getElementById('queue-subtitle').textContent =
+      posts.length === 0 ? 'Nothing pending right now'
+      : `${posts.length} post${posts.length !== 1 ? 's' : ''} waiting for your review`;
+
+    if (!posts.length) {
+      el.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">&#x2705;</div>
+        <h3>All caught up!</h3>
+        <p>No posts are pending your review right now.<br>Check back when new content is scheduled.</p>
+      </div>`; return;
+    }
+    el.innerHTML = `<div class="posts-grid">${posts.map(renderPostCard).join('')}</div>`;
+  } catch(e) {
+    el.innerHTML = `<div class="error-banner">Unable to load posts — please refresh. (${esc(e.message)})</div>`;
+  }
+}
+
+function renderPostCard(p) {
+  const platforms = (p.platforms || []).map(x => `<span class="tag tag-platform">${esc(x)}</span>`).join('');
+  const typeTag   = p.post_type ? `<span class="tag tag-type">${esc(p.post_type)}</span>` : '';
+  const dateStr   = p.scheduled_date
+    ? 'Scheduled ' + new Date(p.scheduled_date).toLocaleDateString('en-US', {weekday:'short',month:'short',day:'numeric'})
+    : '';
+  return `
+<div class="post-card" id="card-${p.id}">
+  <div class="post-card-header">
+    <div class="post-meta">
+      <div class="post-emoji">${esc(p.emoji||'📄')}</div>
+      <div class="post-info">
+        <div class="post-title">${esc(p.title||'Untitled Post')}</div>
+        <div class="post-date">${dateStr}</div>
+      </div>
+    </div>
+    <span class="status-badge badge-pending" id="badge-${p.id}">Pending</span>
+  </div>
+  ${platforms||typeTag ? `<div class="post-tags">${platforms}${typeTag}</div>` : ''}
+  ${p.caption ? `
+  <div class="post-caption">
+    <div class="caption-text" id="cap-${p.id}">${esc(p.caption)}</div>
+    <button class="caption-toggle" onclick="toggleCap('${p.id}')">Show more</button>
+  </div>` : ''}
+  ${p.preview_note ? `
+  <div class="preview-note">
+    <div class="preview-note-inner">&#x1F4CE; ${esc(p.preview_note)}</div>
+  </div>` : ''}
+  <div class="post-actions" id="act-${p.id}">
+    <button class="btn-approve"   onclick="doApprove('${p.id}')">&#x2713; Approve</button>
+    <button class="btn-revision"  onclick="showRevForm('${p.id}')">&#x270E; Request Changes</button>
+  </div>
+  <div class="revision-form" id="rf-${p.id}">
+    <textarea id="rn-${p.id}" placeholder="Describe the changes you'd like…" rows="3"></textarea>
+    <div class="revision-form-actions">
+      <button class="btn-submit-revision" id="rsub-${p.id}" onclick="doRevision('${p.id}')">Send Feedback</button>
+      <button class="btn-cancel-revision" onclick="hideRevForm('${p.id}')">Cancel</button>
+    </div>
+  </div>
+</div>`;
+}
+
+// ── QUEUE ACTIONS ──────────────────────────────────
+function toggleCap(id) {
+  const el = document.getElementById(`cap-${id}`);
+  const btn = el.nextElementSibling;
+  el.classList.toggle('expanded');
+  btn.textContent = el.classList.contains('expanded') ? 'Show less' : 'Show more';
+}
+function showRevForm(id) {
+  document.getElementById(`rf-${id}`).classList.add('visible');
+  document.getElementById(`rn-${id}`).focus();
+}
+function hideRevForm(id) { document.getElementById(`rf-${id}`).classList.remove('visible'); }
+
+async function doApprove(id) {
+  const actEl  = document.getElementById(`act-${id}`);
+  const badgeEl = document.getElementById(`badge-${id}`);
+  const cardEl  = document.getElementById(`card-${id}`);
+  const btnA = actEl.querySelector('.btn-approve');
+  const btnR = actEl.querySelector('.btn-revision');
+  btnA.disabled = btnR.disabled = true; btnA.textContent = 'Sending…';
+  try {
+    await submitApproval(id, 'Approved', '');
+    cardEl.classList.add('approved');
+    badgeEl.className = 'status-badge badge-approved'; badgeEl.textContent = 'Approved';
+    actEl.innerHTML = `<div class="action-result">&#x2713; Approved — Coral Cove Media has been notified</div>`;
+    bumpBadge(-1);
+  } catch(e) {
+    btnA.disabled = btnR.disabled = false; btnA.textContent = '✓ Approve';
+    alert('Something went wrong. Please try again or contact your rep.');
+  }
+}
+
+async function doRevision(id) {
+  const notes  = document.getElementById(`rn-${id}`).value.trim();
+  if (!notes) { document.getElementById(`rn-${id}`).focus(); return; }
+  const actEl  = document.getElementById(`act-${id}`);
+  const badgeEl = document.getElementById(`badge-${id}`);
+  const cardEl  = document.getElementById(`card-${id}`);
+  const rfEl   = document.getElementById(`rf-${id}`);
+  const subBtn = document.getElementById(`rsub-${id}`);
+  subBtn.disabled = true; subBtn.textContent = 'Sending…';
+  try {
+    await submitApproval(id, 'Revision Requested', notes);
+    cardEl.classList.add('revision');
+    badgeEl.className = 'status-badge badge-revision'; badgeEl.textContent = 'Changes Requested';
+    actEl.innerHTML = `<div class="action-result revision-sent">&#x270E; Feedback sent — we'll be in touch soon</div>`;
+    rfEl.classList.remove('visible');
+    bumpBadge(-1);
+  } catch(e) {
+    subBtn.disabled = false; subBtn.textContent = 'Send Feedback';
+    alert('Something went wrong. Please try again or contact your rep.');
+  }
+}
+
+function bumpBadge(delta) {
+  const b = document.getElementById('queue-badge');
+  const n = parseInt(b.textContent || '0') + delta;
+  if (n <= 0) b.style.display = 'none'; else b.textContent = n;
+}
+
+// ── RENDER: ANALYTICS ──────────────────────────────
+async function loadAnalytics() {
+  analyticsLoaded = true;
+  const el = document.getElementById('analytics-content');
+  try {
+    const metrics = await fetchMetrics();
+    if (!metrics.length) {
+      el.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">&#x1F4CA;</div>
+        <h3>Analytics coming soon</h3>
+        <p>Instagram data syncs nightly. Check back tomorrow for your first report.</p>
+      </div>`; return;
+    }
+    const total  = metrics.length;
+    const avgR   = Math.round(metrics.reduce((a, m) => a + (m.reach||0), 0) / total);
+    const avgE   = (metrics.reduce((a, m) => a + (m.eng_rate||0), 0) / total).toFixed(1);
+    const wins   = metrics.filter(m => m.is_win);
+    const top    = metrics.reduce((a, m) => (!a || (m.reach||0) > (a.reach||0)) ? m : a, null);
+
+    let html = `<div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Posts This Month</div><div class="stat-value">${total}</div><div class="stat-sub">Last 30 days</div></div>
+      <div class="stat-card"><div class="stat-label">Avg Reach</div><div class="stat-value">${fmtN(avgR)}</div><div class="stat-sub">Per post</div></div>
+      <div class="stat-card"><div class="stat-label">Avg Engagement</div><div class="stat-value">${avgE}%</div><div class="stat-sub">Industry avg: 1.5%</div></div>
+      <div class="stat-card"><div class="stat-label">Content Wins</div><div class="stat-value">${wins.length}</div><div class="stat-sub">High-performing posts</div></div>
+    </div>`;
+
+    if (top) html += `<div class="win-spotlight">
+      <div class="win-icon">&#x1F3C6;</div>
+      <div><div class="win-label">Top Post This Month</div>
+        <div class="win-title">${esc(top.post_title||'Untitled')}</div>
+        <div class="win-note-txt">${fmtN(top.reach||0)} reach &middot; ${(top.eng_rate||0).toFixed(1)}% eng &middot; ${top.saves||0} saves${top.win_note ? ' &middot; ' + esc(top.win_note) : ''}</div>
+      </div>
+    </div>`;
+
+    html += `<div class="metrics-grid">${metrics.map(renderMetricCard).join('')}</div>`;
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = `<div class="error-banner">Unable to load analytics — please refresh. (${esc(e.message)})</div>`;
+  }
+}
+
+function renderMetricCard(m) {
+  const date = m.timestamp ? new Date(m.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+  const imgEl = m.thumbnail_url
+    ? `<img class="metric-thumb" src="${esc(m.thumbnail_url)}" alt="${esc(m.post_title||'')}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="metric-thumb-ph" style="display:none">&#x1F4F7;</div>`
+    : `<div class="metric-thumb-ph">&#x1F4F7;</div>`;
+  return `<div class="metric-card ${m.is_win?'is-win':''}">
+    ${m.is_win ? '<div class="win-badge">&#x2B50; Win</div>' : ''}
+    ${imgEl}
+    <div class="metric-body">
+      <div class="metric-title">${esc(m.post_title||'Post')}</div>
+      <div class="metric-date">${date}</div>
+      <div class="metric-stats">
+        <div class="metric-stat"><span class="metric-stat-val">${fmtN(m.reach||0)}</span><span class="metric-stat-label">Reach</span></div>
+        <div class="metric-stat"><span class="metric-stat-val">${(m.eng_rate||0).toFixed(1)}%</span><span class="metric-stat-label">Eng Rate</span></div>
+        <div class="metric-stat"><span class="metric-stat-val">${m.saves||0}</span><span class="metric-stat-label">Saves</span></div>
+        <div class="metric-stat"><span class="metric-stat-val">${m.likes||0}</span><span class="metric-stat-label">Likes</span></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── RENDER: RECAP ──────────────────────────────────
+async function loadRecap() {
+  recapLoaded = true;
+  const el = document.getElementById('recap-content');
+  try {
+    const recap = await fetchRecap();
+    if (!recap) {
+      el.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">&#x1F4DD;</div>
+        <h3>No recap yet this month</h3>
+        <p>Your monthly recap will appear here on the 1st.</p>
+      </div>`; return;
+    }
+    let html = `<div class="recap-hero">
+      <div class="recap-month-label">${esc(recap.month||'')} Performance Recap</div>
+      <div class="recap-note-text">${esc(recap.note||'')}</div>
+      <div class="recap-from">&#x2014; ${esc(recap.rep_name)}, ${esc(recap.rep_title)}</div>
+    </div>`;
+
+    if (recap.wins?.length) html += `<div class="recap-section">
+      <div class="recap-section-title">&#x1F3C6; This Month&rsquo;s Wins</div>
+      <div class="wins-list">${recap.wins.map(w=>`
+        <div class="win-row"><div class="win-check">&#x2713;</div><span>${esc(typeof w==='string'?w:(w.text||''))}</span></div>`).join('')}
+      </div></div>`;
+
+    if (recap.doing_more?.length || recap.doing_less?.length) {
+      html += `<div class="recap-section">
+        <div class="recap-section-title">&#x1F4C8; Content Strategy Adjustments</div>
+        <div class="strategy-grid">
+          ${(recap.doing_more||[]).map(i=>`<div class="strategy-item"><span class="strategy-emoji">&#x2191;</span><span class="strategy-text"><strong>More of:</strong> ${esc(typeof i==='string'?i:(i.text||''))}</span></div>`).join('')}
+          ${(recap.doing_less||[]).map(i=>`<div class="strategy-item"><span class="strategy-emoji">&#x2193;</span><span class="strategy-text"><strong>Less of:</strong> ${esc(typeof i==='string'?i:(i.text||''))}</span></div>`).join('')}
+        </div></div>`;
+    }
+
+    if (recap.next_month) html += `<div class="recap-section">
+      <div class="recap-section-title">&#x1F5D3;&#xFE0F; Next Month&rsquo;s Plan</div>
+      <div class="next-grid">
+        <div><div class="next-body">${esc(typeof recap.next_month==='string'?recap.next_month:(recap.next_month||[]).map(i=>i.body||i).join(' '))}</div></div>
+      </div></div>`;
+
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = `<div class="error-banner">Unable to load recap — please refresh. (${esc(e.message)})</div>`;
+  }
+}
+
+// ── CONTACT MODAL ──────────────────────────────────
+function openContact()  { document.getElementById('contact-modal').classList.add('open'); }
+function closeContact() { document.getElementById('contact-modal').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContact(); });
+
+// ── UTILS ──────────────────────────────────────────
+// Handles both JSON arrays and plain newline-delimited strings
+function parseLineList(s, fb) {
+  if (!s) return fb;
+  try { return JSON.parse(s); } catch {
+    return s.split('\n').map(l => l.trim()).filter(Boolean);
+  }
+}
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function fmtN(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+  return String(n);
+}
+</script>
+
+</body>
+</html>
