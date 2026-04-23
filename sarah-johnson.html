@@ -409,7 +409,8 @@ const CONFIG = {
   // ── Airtable (READ-ONLY token — safe to leave in HTML) ──
   AT_TOKEN:     'patEBUOCGoFVTtzD9.5385b5325b155838919052f3290c7b79e272dd699084d3cc5969530c5b5d15c4',   // Read-only PAT — create at airtable.com/create/tokens
   AT_BASE:      'app7aL2o79DKFOrhT',                    // CCM Client Portal base ID
-  AT_CLIENT_ID: 'recNQXaNBTN6TWNGG',                    // Sarah Johnson's record ID in Clients table
+  AT_CLIENT_ID:     'sarah-johnson',                    // Client slug — used in Airtable formula filters
+  AT_CLIENT_REC_ID: 'recNQXaNBTN6TWNGG',               // Client record ID — used for linked-record writes
 
   // ── Cloudflare Worker (proxies the write token — never expose write token here) ──
   WORKER_URL:   'https://ccm-portal-proxy.floral-sun-65b8.workers.dev',
@@ -611,7 +612,7 @@ async function submitApproval(postRecordId, action, notes) {
     body: JSON.stringify({
       fields: {
         post:      [postRecordId],
-        client:    [CONFIG.AT_CLIENT_ID],
+        client:    [CONFIG.AT_CLIENT_REC_ID],
         action,
         notes:     notes || '',
         timestamp: new Date().toISOString(),
