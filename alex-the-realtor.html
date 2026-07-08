@@ -202,15 +202,6 @@ body {
   background: var(--gray-50); border: 1px solid var(--gray-200);
   border-radius: 8px; padding: 10px 12px; font-size: 13px; color: var(--gray-500);
 }
-.btn-view-design {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--blue-light); color: var(--blue);
-  border: 1px solid rgba(61,126,170,0.3); border-radius: 8px;
-  padding: 8px 14px; font-size: 13px; font-weight: 600;
-  text-decoration: none; transition: background 0.15s, color 0.15s;
-}
-.btn-view-design:hover { background: var(--blue); color: white; }
-.design-link { color: var(--coral); text-decoration: underline; word-break: break-all; }
 
 .post-actions {
   padding: 12px 20px 16px; border-top: 1px solid var(--gray-200);
@@ -356,12 +347,35 @@ body {
 .next-body    { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
 
 /* ── DELIVERABLES ── */
-.deliverables-placeholder {
-  background: white; border: 1.5px dashed var(--gray-300);
-  border-radius: var(--radius); padding: 60px 32px; text-align: center; color: var(--gray-400);
+.deliv-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
 }
-.deliverables-placeholder h3 { font-size: 17px; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
-.deliverables-placeholder p  { font-size: 14px; line-height: 1.6; }
+.deliv-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 20px;
+  box-shadow: var(--shadow); transition: box-shadow 0.15s;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.deliv-card:hover { box-shadow: var(--shadow-md); }
+.deliv-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.deliv-title { font-size: 15px; font-weight: 700; color: var(--gray-800); line-height: 1.4; flex: 1; }
+.deliv-status {
+  flex-shrink: 0; padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.deliv-status-scheduled  { background: var(--blue-light);  color: var(--blue); }
+.deliv-status-completed  { background: var(--green-light); color: #276749; }
+.deliv-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+.deliv-date { font-size: 12px; color: var(--gray-400); display: flex; align-items: center; gap: 4px; }
+.deliv-type { font-size: 12px; color: var(--gray-500); background: var(--gray-100); padding: 2px 8px; border-radius: 10px; }
+.btn-drive {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--coral); color: white; border: none;
+  border-radius: 8px; padding: 9px 16px; font-size: 13px; font-weight: 600;
+  text-decoration: none; cursor: pointer; transition: background 0.15s; margin-top: 4px;
+  align-self: flex-start;
+}
+.btn-drive:hover { background: var(--coral-dark); }
 
 /* ── CONTACT MODAL ── */
 .modal-overlay {
@@ -496,11 +510,8 @@ const CONFIG = {
       <div class="page-title">Deliverables</div>
       <div class="page-subtitle">Photos, videos, and assets from your shoots</div>
     </div>
-    <div class="deliverables-placeholder">
-      <div style="font-size:40px;margin-bottom:12px">📦</div>
-      <h3>Coming Soon</h3>
-      <p>Your deliverables library will appear here after each shoot.<br>
-      Check back after your next content day.</p>
+    <div id="deliverables-content">
+      <div class="loading"><div class="spinner"></div><span>Loading deliverables…</span></div>
     </div>
   </div>
 
@@ -541,8 +552,9 @@ const CONFIG = {
      =================================================== -->
 <script>
 // ── STATE ──────────────────────────────────────────
-let analyticsLoaded   = false;
-let recapLoaded       = false;
+let analyticsLoaded      = false;
+let recapLoaded          = false;
+let deliverablesLoaded   = false;
 
 // ── INIT ───────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -563,8 +575,9 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
   document.getElementById(`panel-${tab}`).classList.add('active');
-  if (tab === 'analytics'  && !analyticsLoaded)  loadAnalytics();
-  if (tab === 'recap'      && !recapLoaded)       loadRecap();
+  if (tab === 'analytics'    && !analyticsLoaded)    loadAnalytics();
+  if (tab === 'recap'        && !recapLoaded)         loadRecap();
+  if (tab === 'deliverables' && !deliverablesLoaded)  loadDeliverables();
 }
 
 // ── FETCH: POSTS ───────────────────────────────────
@@ -682,10 +695,7 @@ function renderPostCard(p) {
   </div>` : ''}
   ${p.preview_note ? `
   <div class="preview-note">
-    ${/^https?:\/\/\S+$/.test((p.preview_note||'').trim())
-      ? `<a class="btn-view-design" href="${esc(p.preview_note.trim())}" target="_blank" rel="noopener">&#x1F3A8; View Design &rarr;</a>`
-      : `<div class="preview-note-inner">&#x1F4CE; ${linkify(p.preview_note)}</div>`
-    }
+    <div class="preview-note-inner">&#x1F4CE; ${esc(p.preview_note)}</div>
   </div>` : ''}
   <div class="post-actions" id="act-${p.id}">
     <button class="btn-approve"   onclick="doApprove('${p.id}')">&#x2713; Approve</button>
@@ -869,6 +879,70 @@ async function loadRecap() {
   }
 }
 
+// ── FETCH: DELIVERABLES ────────────────────────────
+async function fetchDeliverables() {
+  let all = [], offset = '';
+  do {
+    const qs = new URLSearchParams({
+      filterByFormula: `{client}='${CONFIG.AT_CLIENT_ID}'`,
+      'sort[0][field]': 'scheduled_date',
+      'sort[0][direction]': 'desc',
+      pageSize: '100',
+    });
+    if (offset) qs.set('offset', offset);
+    const r = await fetch(
+      `https://api.airtable.com/v0/${CONFIG.AT_BASE}/tblaEUdAtiRmozcUj?${qs}`,
+      { headers: { Authorization: `Bearer ${CONFIG.AT_TOKEN}` } }
+    );
+    if (!r.ok) throw new Error(`Airtable ${r.status}`);
+    const d = await r.json();
+    all = all.concat(d.records.map(rec => ({ id: rec.id, ...rec.fields })));
+    offset = d.offset || '';
+  } while (offset);
+  return all;
+}
+
+// ── RENDER: DELIVERABLES ───────────────────────────
+async function loadDeliverables() {
+  deliverablesLoaded = true;
+  const el = document.getElementById('deliverables-content');
+  try {
+    const items = await fetchDeliverables();
+    if (!items.length) {
+      el.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">&#x1F4E6;</div>
+        <h3>No deliverables yet</h3>
+        <p>Your finished assets will appear here once editing is complete.<br>Check back after your next content day.</p>
+      </div>`; return;
+    }
+    el.innerHTML = `<div class="deliv-grid">${items.map(renderDelivCard).join('')}</div>`;
+  } catch(e) {
+    el.innerHTML = `<div class="error-banner">Unable to load deliverables — please refresh. (${esc(e.message)})</div>`;
+  }
+}
+
+function renderDelivCard(d) {
+  const statusClass = d.status === 'Completed' ? 'deliv-status-completed' : 'deliv-status-scheduled';
+  const statusLabel = d.status || 'Scheduled';
+  const dateStr = d.scheduled_date
+    ? new Date(d.scheduled_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    : '';
+  const driveBtn = d.drive_link
+    ? `<a class="btn-drive" href="${esc(d.drive_link)}" target="_blank" rel="noopener">&#x1F517; View in Drive</a>`
+    : `<span style="font-size:13px;color:var(--gray-400)">Drive link coming soon</span>`;
+  return `<div class="deliv-card">
+    <div class="deliv-card-top">
+      <div class="deliv-title">${esc(d.title || 'Untitled Asset')}</div>
+      <span class="deliv-status ${statusClass}">${esc(statusLabel)}</span>
+    </div>
+    <div class="deliv-meta">
+      ${dateStr ? `<span class="deliv-date">&#x1F4C5; ${dateStr}</span>` : ''}
+      ${d.post_type ? `<span class="deliv-type">${esc(d.post_type)}</span>` : ''}
+    </div>
+    ${driveBtn}
+  </div>`;
+}
+
 // ── CONTACT MODAL ──────────────────────────────────
 function openContact()  { document.getElementById('contact-modal').classList.add('open'); }
 function closeContact() { document.getElementById('contact-modal').classList.remove('open'); }
@@ -880,12 +954,6 @@ function esc(s) {
   return String(s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-function linkify(text) {
-  const parts = String(text).split(/(https?:\/\/\S+)/gi);
-  return parts.map((p,i) => i%2===1
-    ? `<a href="${esc(p)}" target="_blank" rel="noopener" class="design-link">${esc(p)}</a>`
-    : esc(p)).join('');
 }
 function fmtN(n) {
   if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
