@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coral Cove Media — Operations Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B1F2A;
+  --ink-2:#123143;
+  --paper:#EEF1F0;
+  --card:#FFFFFF;
+  --amber:#F2B705;
+  --teal:#1E7A6F;
+  --muted:#6B7C85;
+  --line:#D3DBDA;
+  --radius:3px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:15px;
+  line-height:1.55;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ---------- masthead ---------- */
+.masthead{background:var(--ink);color:var(--paper);padding:44px 0 0}
+.brand{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--amber);margin:0 0 20px;
+}
+.masthead h1{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-weight:800;font-size:clamp(34px,6vw,60px);
+  line-height:1.02;letter-spacing:-.025em;margin:0 0 10px;
+}
+.masthead p{
+  max-width:56ch;color:#9FB3BD;margin:0 0 30px;font-size:15px;
+}
+
+/* ---------- search ---------- */
+.searchbar{position:relative;margin-bottom:18px}
+.searchbar input{
+  width:100%;
+  background:var(--ink-2);
+  border:1px solid #24485C;
+  border-bottom:2px solid var(--amber);
+  color:var(--paper);
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(18px,3vw,26px);
+  font-weight:600;
+  letter-spacing:-.01em;
+  padding:18px 108px 18px 18px;
+  border-radius:var(--radius) var(--radius) 0 0;
+  outline:none;
+}
+.searchbar input::placeholder{color:#5E7C8B}
+.searchbar input:focus{border-color:var(--amber)}
+.slash{
+  position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:#7E9AA8;border:1px solid #2E5468;border-radius:var(--radius);
+  padding:4px 8px;pointer-events:none;
+}
+.readout{
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:#9FB3BD;
+  padding-bottom:8px;
+}
+.readout b{color:var(--amber);font-weight:500}
+
+.source{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:#7E9AA8;padding-bottom:22px}
+.source[data-tone="ok"]{color:var(--teal)}
+.source[data-tone="warn"]{color:var(--amber)}
+
+/* ---------- filters ---------- */
+.filters{background:var(--ink);padding-bottom:22px}
+.chiprow{display:flex;flex-wrap:wrap;gap:7px}
+.chip{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:.06em;text-transform:uppercase;
+  background:transparent;color:#9FB3BD;
+  border:1px solid #2E5468;border-radius:var(--radius);
+  padding:6px 11px;cursor:pointer;transition:.14s;
+}
+.chip:hover{border-color:var(--amber);color:var(--paper)}
+.chip[aria-pressed="true"]{background:var(--amber);border-color:var(--amber);color:var(--ink);font-weight:500}
+.chip .n{opacity:.6;margin-left:5px}
+
+/* ---------- results ---------- */
+main{padding:34px 0 80px}
+.group{margin-bottom:34px}
+.group-head{
+  display:flex;align-items:baseline;gap:12px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:7px;margin-bottom:14px;
+}
+.group-head h2{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:15px;font-weight:800;letter-spacing:.01em;margin:0;
+}
+.group-head span{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);
+}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px}
+
+.card{
+  display:block;text-decoration:none;color:inherit;
+  background:var(--card);border:1px solid var(--line);
+  border-left:2px solid var(--teal);
+  border-radius:var(--radius);
+  padding:15px 16px 14px;
+  transition:.14s;
+}
+.card:hover,.card:focus-visible{
+  border-color:var(--ink);border-left-color:var(--amber);
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(11,31,42,.09);
+}
+.card:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.card.is-folder{border-left-color:var(--muted);background:#F8FAF9}
+.card.is-dupe{border-left-color:#C1552F}
+
+.k{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;
+}
+.k .flag{color:#C1552F;font-weight:500}
+.card h3{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:16px;font-weight:600;line-height:1.25;letter-spacing:-.012em;
+  margin:0 0 7px;
+}
+.card p{margin:0 0 11px;font-size:13.5px;color:#4A5C66;line-height:1.5}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--teal);border:1px solid #BFD6D2;border-radius:var(--radius);
+  padding:2px 6px;background:#F1F7F6;
+}
+mark{background:var(--amber);color:var(--ink);padding:0 1px;border-radius:2px}
+
+.empty{
+  border:1px dashed var(--line);border-radius:var(--radius);
+  padding:44px 24px;text-align:center;color:var(--muted);
+}
+.empty strong{
+  display:block;font-family:'Bricolage Grotesque',sans-serif;
+  font-size:19px;color:var(--ink);font-weight:600;margin-bottom:6px;
+}
+
+footer{border-top:1px solid var(--line);padding:24px 0 60px;color:var(--muted);font-size:12.5px}
+footer code{font-family:'IBM Plex Mono',monospace;background:#E2E7E6;padding:1px 5px;border-radius:2px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:600px){.masthead{padding-top:30px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="brand">Coral Cove Media — Internal</p>
+    <h1>Operations Index</h1>
+    <p>Every SOP, playbook, checklist, and role doc in one place. Search by task, role, client, or tool — results filter as you type.</p>
+
+    <div class="searchbar">
+      <input id="q" type="search" autocomplete="off" spellcheck="false"
+             placeholder="Search SOPs, roles, clients…" aria-label="Search the operations index">
+      <span class="slash">/</span>
+    </div>
+    <div class="readout" id="readout"></div>
+    <div class="source" id="source"></div>
+  </div>
+</header>
+
+<div class="filters">
+  <div class="wrap"><div class="chiprow" id="chips"></div></div>
+</div>
+
+<main><div class="wrap" id="results"></div></main>
+
+<footer>
+  <div class="wrap">
+    To add or change an entry, edit the <code>DOCS</code> array near the bottom of this file — one object per document. Nothing else needs to change.
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   DOCS — the index. Add / edit / remove entries here.
+   Fields: title, desc, cat, owner, type, tags[], url, flag?
+   ============================================================ */
+let DOCS = [
+
+/* ---- Field & Production ---- */
+{title:"CCM Creative Specialist RAW Upload SOP",cat:"Field & Production",owner:"Chris",type:"SOP",
+ desc:"How creative specialists upload RAW photo and video after a shoot — folder targets, naming, and what has to be confirmed before the order moves stages.",
+ tags:["raw","upload","creative-specialist","delivery","naming"],
+ url:"https://docs.google.com/document/d/1_JdXFCRPJsJVWf2azbXYUz7yk1YWGzHnUOaVFvCfnrs/edit"},
+
+{title:"ACRE Creative Specialist RAW Upload SOP",cat:"Field & Production",owner:"Chris",type:"SOP",
+ desc:"ACRE-branded version of the RAW upload SOP. Confirm which one your team actually follows before handing either to a new hire.",
+ tags:["raw","upload","creative-specialist","acre"],flag:"Variant",
+ url:"https://docs.google.com/document/d/1yMMdTkDQwQWf33yYbc6vqHAxvppTwHKVPvIbRjzlSeE/edit"},
+
+{title:"Order Flow — Stages & Project Chat Checklist",cat:"Field & Production",owner:"Ops",type:"SOP",
+ desc:"Who moves an order from Pre-Production to Production to Post to Completed, and the booking-confirmation checklist the PM runs at each stage. Written against the Tonomo/portal board.",
+ tags:["workflow","order-stages","pm","qa","checklist"],
+ url:"https://docs.google.com/document/d/1n_khxNiI4g2PDea-zrNtWPvoDKsNsKm-BQXztpKCKlw/edit"},
+
+{title:"Real Estate Photographer Checklist",cat:"Field & Production",owner:"Chris",type:"Checklist",
+ desc:"Pre-shoot equipment check and on-site strategy for photographers — batteries, dual SD cards, gimbal, drone, saved directions. Run this the night before, not in the driveway.",
+ tags:["shoot","equipment","photography","pre-shoot","field"],
+ url:"https://docs.google.com/document/d/15T4BREVSTATXZmuJqiSKphZb5nuKW6ulkWQLfdC88Zk/edit"},
+
+{title:"RE Property Prep Checklist",cat:"Field & Production",owner:"Client Success",type:"Checklist",
+ desc:"Client-facing prep list sent ahead of a residential listing shoot so the home is camera-ready on arrival.",
+ tags:["client-facing","prep","listing","pre-shoot"],
+ url:"https://docs.google.com/document/d/1hLE-drs0DSt5HW9RdF7PgIGSq1pJUZFZ7wekKFvMc00/edit"},
+
+{title:"STR Property Prep Checklist",cat:"Field & Production",owner:"Client Success",type:"Checklist",
+ desc:"Short-term rental version of the prep list — staging and styling notes specific to vacation properties.",
+ tags:["client-facing","prep","str","pre-shoot"],
+ url:"https://docs.google.com/document/d/135dwS59qOqa7gY9iqdzNSq3gMM4KeMfenAownPS3eDQ/edit"},
+
+{title:"Multihull Company — Production Worksheet",cat:"Field & Production",owner:"Chris",type:"SOP",
+ desc:"Standing production standard for the Multihull account: 4–5 hour shoots, full RAW photo set, 120–150 clips for long-form, 20–25 vertical clips, drone coverage, no editing, raw upload to client Dropbox.",
+ tags:["client-sop","marine","deliverables","drone","raw"],
+ url:"https://docs.google.com/document/d/160f9y-TPYEfTKGXmXglKNVmudN3xm4ifxiU4N8JsLq0/edit"},
+
+/* ---- Quality Control ---- */
+{title:"QC Specialist Training Outline",cat:"Quality Control",owner:"Monica",type:"Training",
+ desc:"Two-week structured onboarding for QC Specialists: orientation, standards, live supervised workflow, then independent operation. Hard 30/60/90 pass-fail gates.",
+ tags:["qc","onboarding","training","30-60-90"],
+ url:"https://docs.google.com/document/d/1raU0sSsC0n-YolxxLIMUxnj4ybTC97WetkN6janfAnU/edit"},
+
+{title:"QC Specialist Training Outline (VA pivot)",cat:"Quality Control",owner:"Monica",type:"Training",
+ desc:"Second copy written for the FourCorners VA pivot. Same structure, different company stats and territory. Pick one as canonical and archive the other.",
+ tags:["qc","onboarding","training","va"],flag:"Duplicate",
+ url:"https://docs.google.com/document/d/1hS4JMu5I4Ka7_DVbifXE-LgI3Vey94G67qouT-CqiIg/edit"},
+
+{title:"QC Skills Assessment",cat:"Quality Control",owner:"Monica",type:"Assessment",
+ desc:"Pre-hire questionnaire gauging comfort with photo editing, quality control, AI tools, and fast-turnaround review. Explicitly not pass/fail — it scopes training.",
+ tags:["qc","hiring","assessment"],
+ url:"https://docs.google.com/document/d/12RMrpAOV56b--U8SOqOorUNZDTpe1sGudU5dkxUeEY4/edit"},
+
+{title:"QC Skills Assessment — candidate copy",cat:"Quality Control",owner:"Monica",type:"Assessment",
+ desc:"Candidate-specific copy of the assessment. Belongs in a hiring archive, not the live SOP set.",
+ tags:["qc","hiring","assessment"],flag:"Duplicate",
+ url:"https://docs.google.com/document/d/1ZXTIiNkXBbjTmZIJb4B9xTj9bUVx800AFPAmZAXB95g/edit"},
+
+/* ---- Social Media ---- */
+{title:"Instagram Engagement SOP",cat:"Social Media",owner:"Nicole",type:"SOP",
+ desc:"Who to engage with, how to engage, what to say, what to avoid. Geography-locked to Northeast Florida. Manual engagement only — nothing automated.",
+ tags:["instagram","engagement","smm","outreach"],
+ url:"https://docs.google.com/document/d/1pXjZ3Ux3MQU4xkFnXo_-vBTmbQJ0gJrN5y5SG3RpHHI/edit"},
+
+{title:"Content Submission Deadlines",cat:"Social Media",owner:"Nicole",type:"SOP",
+ desc:"The weekly content clock: VA submits hooks and captions Monday 5PM, manager reviews Tuesday 2PM, assets due Wednesday. Includes the exact status changes and tagging rules at each handoff.",
+ tags:["deadlines","content","va","approval","weekly"],
+ url:"https://docs.google.com/document/d/1eAYGV9KsvdDJVcHcpwXTGxh_sRL0vnyvWwAWhneUg2o/edit"},
+
+{title:"New SMM Hire — First Week Schedule",cat:"Social Media",owner:"Nicole",type:"Onboarding",
+ desc:"Hour-by-hour Monday–Friday ramp for a new SMM VA: Drive orientation, client Instagram review, tool setup across Drive, Asana, Canva, and ChatGPT.",
+ tags:["onboarding","smm","va","schedule"],
+ url:"https://docs.google.com/document/d/15zX4m0B2TJMeV8KZhBj6WX3aEPtqc4i07iA61vfVNFY/edit"},
+
+{title:"30-Day Trust Content Playbook",cat:"Social Media",owner:"Nicole",type:"Playbook",
+ desc:"Month-long content framework built around establishing trust with a new audience.",
+ tags:["playbook","content","trust","30-day"],
+ url:"https://docs.google.com/document/d/1dAs-6j4zjMM-hjy6WqJzdeMuZA9f4hVDJCA0Oy1ejFI/edit"},
+
+{title:"30-Day Trust Content Playbook V1",cat:"Social Media",owner:"Nicole",type:"Playbook",
+ desc:"Earlier version of the trust playbook. Confirm which is current before assigning it.",
+ tags:["playbook","content","trust"],flag:"Duplicate",
+ url:"https://docs.google.com/document/d/1I0yrTBt568h9btfzK9m1Ye-kX41xOoccHjwqqFWoOjk/edit"},
+
+{title:"Coral Cove Instagram Audit & Strategy",cat:"Social Media",owner:"Nicole",type:"Strategy",
+ desc:"Diagnoses the split between the realtor-facing brand and the newer SMM offering, and sets the positioning shift toward premium content partner.",
+ tags:["instagram","positioning","brand","audit"],
+ url:"https://docs.google.com/document/d/1AAPee9QrfmHv-kAwE66BB8CXJR6MrBm4cX4MV8573fc/edit"},
+
+{title:"Meta Ads — Angles",cat:"Social Media",owner:"Chris",type:"Reference",
+ desc:"Five campaign angles with emotional drivers and five hooks each, plus why each angle works. Start here before writing new ad copy.",
+ tags:["meta","ads","hooks","angles","copy"],
+ url:"https://docs.google.com/document/d/1GPE7tUXz49N8muPI8gCI4xDpxoGYKZl7_yIgaWpfXB0/edit"},
+
+{title:"Meta Ads Scripts",cat:"Social Media",owner:"Chris",type:"Templates",
+ desc:"Hook-through-CTA ad scripts for the local-business SMM campaign. The written execution of the angles doc.",
+ tags:["meta","ads","scripts","copy"],
+ url:"https://docs.google.com/document/d/1Jq405jY-Gfw--UbL_8goRk1LaEN_XZD1yFLAYecgQOY/edit"},
+
+{title:"Engagement — folder",cat:"Social Media",owner:"Nicole",type:"Folder",
+ desc:"Working folder for engagement assets and tracking alongside the Instagram Engagement SOP.",
+ tags:["engagement","folder"],
+ url:"https://drive.google.com/drive/folders/1EHQ0ExjpLvlmpd34H0AfrSS3kJ_CXPY1"},
+
+{title:"Analytics SOP — folder",cat:"Social Media",owner:"Nicole",type:"Folder",
+ desc:"Reporting procedures and the analytics email templates used for monthly client reports.",
+ tags:["analytics","reporting","folder"],
+ url:"https://drive.google.com/drive/folders/1TJT2xAjg9KIAC07w0xY3mPqCrSzF9Kz1"},
+
+/* ---- Client Onboarding ---- */
+{title:"Social Media Onboarding Questionnaire",cat:"Client Onboarding",owner:"Nicole",type:"Template",
+ desc:"Intake form for new SMM clients — business story, current marketing, programs and services, dream client, email list. Send before the kickoff call, not after.",
+ tags:["intake","questionnaire","smm","new-client"],
+ url:"https://docs.google.com/document/d/18MDdIOrtX3PvNNvjFMPhsZ99_k3e_5qGDTzC-0F4G6k/edit"},
+
+{title:"Ferrum Athletic — Onboarding Brief",cat:"Client Onboarding",owner:"Ken",type:"Client Brief",
+ desc:"Worked example of a completed onboarding brief: positioning, short and long term goals, target audience, and tone guardrails. Use as the model for new accounts.",
+ tags:["onboarding","brief","ferrum","example","tone"],
+ url:"https://docs.google.com/document/d/1i538CvhGBezbYamcSGFXxIB6RXlWrE1HlvpuMzNuwhg/edit"},
+
+{title:"Ferrum Athletic — Shot List",cat:"Client Onboarding",owner:"Ken",type:"Shot List",
+ desc:"Testimonial and b-roll shot list with tone notes. Educational and longevity-focused, deliberately not high-intensity hype.",
+ tags:["shot-list","ferrum","testimonial","gym"],
+ url:"https://docs.google.com/document/d/1xVY27-5RfBf6ppguuwurzQgZdHVV4j3NPf1KGOHul64/edit"},
+
+{title:"L. Moore Aesthetics — Shot List",cat:"Client Onboarding",owner:"Ken",type:"Shot List",
+ desc:"Talking-head prompts and coverage plan for the med spa account, organized by seasonal content block.",
+ tags:["shot-list","med-spa","talking-head"],
+ url:"https://docs.google.com/document/d/1-OH_PZbtkQcODxL3CLD312IRTlNE3u0QJJhfEm6X6-o/edit"},
+
+{title:"Lakeside Nest — Shot List",cat:"Client Onboarding",owner:"Shai",type:"Shot List",
+ desc:"Drone and ground coverage plan with per-shot tips. Good template for any property-complex shoot: numbered shots, framing notes, and light timing.",
+ tags:["shot-list","drone","property","template"],
+ url:"https://docs.google.com/document/d/13JQhyMdKPbGw5wc5C5957R6VlbycLwZ028jhNzV6ZKM/edit"},
+
+{title:"Spas ETC — Shot List",cat:"Client Onboarding",owner:"Ken",type:"Shot List",
+ desc:"Drone and ground shot list for expo and showroom coverage, framed vertical for Reels throughout.",
+ tags:["shot-list","expo","drone","vertical"],
+ url:"https://docs.google.com/document/d/1-kgl-iMAZBrtUAKZ6okYKCBp-0CTv8cJ4eSS2yTp5p4/edit"},
+
+/* ---- Sales ---- */
+{title:"Sales Advisor Manual v1.0",cat:"Sales",owner:"Chris",type:"Manual",
+ desc:"The core sales reference for advisors — positioning, offer structure, and how to run a Coral Cove conversation.",
+ tags:["sales","manual","pitch"],
+ url:"https://docs.google.com/document/d/1hNYF_2MfyNXtJwI0NHcrHWHuxjcsVRqkbAWz6KMB0oA/edit"},
+
+{title:"Live Confirmation & Consultative Sales Workshop",cat:"Sales",owner:"Chris",type:"Training",
+ desc:"Why confirmation calls beat sales calls: lead with confirmation language to lower defenses, research the listing first, then position upsells like twilight and reels. Built from live call demos.",
+ tags:["sales","upsell","calls","training","consultative"],
+ url:"https://docs.google.com/document/d/17FpqIrGi8y4iVjBcAjOIzS1HiKv62rw2FRXxJlblurQ/edit"},
+
+{title:"AI Sales Agent Knowledge Base",cat:"Sales",owner:"Chris",type:"Reference",
+ desc:"Source-of-truth answers the AI sales agent draws from. Update this when services, pricing, or positioning change.",
+ tags:["ai","sales","knowledge-base","automation"],
+ url:"https://docs.google.com/document/d/1ef5w5b96QzlZd-1OkODNB6H3NKNo-vSUJq4ZXByr9g8/edit"},
+
+{title:"AI for Realtors — Live Prompt Pack",cat:"Sales",owner:"Chris",type:"Resource",
+ desc:"Copy-paste prompt library for MLS listing copy and turning one listing into five social captions. Used as a lead magnet and in agent workshops.",
+ tags:["ai","prompts","realtors","listing-copy","lead-magnet"],
+ url:"https://docs.google.com/document/d/1opS4u-Snyp9UzejIJup1bgiNOVCq_K3txU6_NzR5pqA/edit"},
+
+{title:"Full Manual",cat:"Sales",owner:"Chris",type:"Manual",
+ desc:"Long-form company manual. Title is ambiguous against the Sales Advisor Manual — rename once you confirm scope.",
+ tags:["manual","reference"],flag:"Needs rename",
+ url:"https://docs.google.com/document/d/15j8umWmSAYohU5Ex2Hkfy8fcYpQ0TQa0MvgCNWGn79Q/edit"},
+
+{title:"Merger Announcement Email",cat:"Sales",owner:"Chris",type:"Template",
+ desc:"Email 1 of the non-client GHL sequence — announces the Four Corners merger and reintroduces the service range. Reusable as the reactivation template.",
+ tags:["email","template","merger","ghl","reactivation"],
+ url:"https://docs.google.com/document/d/10g99n9Ipn1hvV0U7ryiFcC6AGygWHPm9OVfP1ewWtVI/edit"},
+
+/* ---- Pricing ---- */
+{title:"Real Estate Client Pricing",cat:"Pricing",owner:"Chris",type:"Pricing",
+ desc:"Per-video pricing for real estate clients as of 05-18-2026, with add-on rates for AI enhancements, length extension, and agent spiel. Quote from this, not from memory.",
+ tags:["pricing","real-estate","video","add-ons"],
+ url:"https://docs.google.com/document/d/18YrDvi1-XXcEeWoB5BNKiaGXyy6K5OwqJJMfmj03Rvs/edit"},
+
+{title:"Editing Rate Card — RC AVPRO",cat:"Pricing",owner:"Chris",type:"Pricing",
+ desc:"Per-edit pricing with the outsourced edit partner as of 06-09-2026: basic vs premium tiers, revision counts, 24–48hr turnaround, and confirmation that Coral Cove supplies the licensed music and AI subscriptions.",
+ tags:["pricing","editing","vendor","turnaround","revisions"],
+ url:"https://docs.google.com/document/d/1Q8FRCZY7ptvy6DGaHPYoDcjk5aJvxnoZoOcaOOTt8DA/edit"},
+
+{title:"Growth Packages 2026",cat:"Pricing",owner:"Chris",type:"Pricing",
+ desc:"Current package lineup and price points for 2026.",
+ tags:["pricing","packages","2026"],
+ url:"https://docs.google.com/document/d/10kd8N3zzYZuYyFAPiIEkSnGbOP_Gc-wQ6YLglnEIzHU/edit"},
+
+{title:"Quarterly Content Accelerator Packages",cat:"Pricing",owner:"Chris",type:"Pricing",
+ desc:"Quarterly content bundle tiers and what each deliverable set includes.",
+ tags:["pricing","packages","content"],
+ url:"https://docs.google.com/document/d/1AZZ_6tucu1K4iA7RR3dSzlTVqI7V80XrqUhGgF_rpgU/edit"},
+
+/* ---- Roles & People Ops ---- */
+{title:"Team Mapping — Roles & Assignments",cat:"Roles & People Ops",owner:"Monica",type:"Reference",
+ desc:"Who covers which clients, current capacity per creator, and open headcount. The fastest answer to \u201Cwho owns this account?\u201D",
+ tags:["team","capacity","assignments"],
+ url:"https://docs.google.com/document/d/1bhVVinsFY5upbEplJPeoRKcegdowc08X1GS8CnhQJBo/edit"},
+
+{title:"Creative Specialist Welcome Packet",cat:"Roles & People Ops",owner:"Monica",type:"Onboarding",
+ desc:"First-day packet for new creative hires — expectations, tools, and how work moves through the shop.",
+ tags:["onboarding","creative","welcome"],
+ url:"https://docs.google.com/document/d/12OCBcU5cUBCmdTaPtsU2bwegGz8G3zaoIZcYD3egNbI/edit"},
+
+{title:"Marketing Director — Job Description",cat:"Roles & People Ops",owner:"Monica",type:"Role Doc",
+ desc:"Scope, responsibilities, and success measures for the Marketing Director seat.",
+ tags:["role","hiring","marketing"],
+ url:"https://docs.google.com/document/d/1KuHl1lpMaxkyB4RnJzuBAt8fhA68hF7vkE4Jn8j5mfg/edit"},
+
+{title:"Project Coordinator — Job Description",cat:"Roles & People Ops",owner:"Monica",type:"Role Doc",
+ desc:"Scope and responsibilities for the Project Coordinator seat.",
+ tags:["role","hiring","coordination"],
+ url:"https://docs.google.com/document/d/1HIbqf41rndUhWGNrFw-dmGtZmuSUkUmPcIcSRqa7Wo8/edit"},
+
+{title:"Client Success Rep — Role Description",cat:"Roles & People Ops",owner:"Monica",type:"Role Doc",
+ desc:"Scope and responsibilities for the Client Success seat.",
+ tags:["role","hiring","client-success"],
+ url:"https://docs.google.com/document/d/17P3nPMrBGuwJGWYY7c3Brp570ekVR-McpItVCZ7qevA/edit"},
+
+{title:"Founder Duties — Delegation Inventory",cat:"Roles & People Ops",owner:"Chris",type:"Reference",
+ desc:"Full inventory of duties currently held by Chris and Monica across shooting, QC, delivery, and business development. The working delegation checklist as roles get filled.",
+ tags:["role","delegation","founder","capacity"],
+ url:"https://docs.google.com/document/d/1rxF7q8_Rdwkjw6LwyuU6Nw8gBU64wSqTJHsqwTfWCGI/edit"},
+
+{title:"Job Offer Letter Template",cat:"Roles & People Ops",owner:"Monica",type:"Template",
+ desc:"Standard offer letter to fill and send. Confirm comp and start date before issuing.",
+ tags:["hiring","template","offer"],
+ url:"https://docs.google.com/document/d/1MDUfUA6PPPoT6P7BUhj1sN29yKBZT_JSWENhwuo-99Y/edit"},
+
+{title:"Health & Wellness Benefits Policy",cat:"Roles & People Ops",owner:"Monica",type:"Policy",
+ desc:"What the wellness benefit covers, who qualifies, and how to claim it.",
+ tags:["policy","benefits","wellness"],
+ url:"https://docs.google.com/document/d/1tU-Pgs5741UR7p2181e22nYrA3XuyguQ_PKf5EBlMJs/edit"},
+
+{title:"Prize Wheel Policy",cat:"Roles & People Ops",owner:"Monica",type:"Policy",
+ desc:"Rules for the prize wheel incentive — eligibility, cadence, and prize handling.",
+ tags:["policy","incentives","team"],
+ url:"https://docs.google.com/document/d/1Sspz552qyhTqQpmjQ2ZVFTXRxb8x8yZ6NJQxNBptpjg/edit"},
+
+/* ---- Systems & Admin ---- */
+{title:"Google Workspace Migration SOP",cat:"Systems & Admin",owner:"Chris",type:"SOP",
+ desc:"Shared Drive method for moving all company files between Workspace accounts without losing ownership or breaking permissions. Phased, with a defined owner per phase and the standard Clients / Marketing / Operations / Finance structure.",
+ tags:["workspace","migration","shared-drive","permissions","admin"],
+ url:"https://docs.google.com/document/d/1hKYgrq_5YI77TCUMC7qhYyRAM93eGDZ_Xhz5I00_ySE/edit"},
+
+{title:"SMM Contracts",cat:"Systems & Admin",owner:"Monica",type:"Folder",
+ desc:"Signed social media management agreements. Check scope here before adding deliverables to an account.",
+ tags:["contracts","smm","folder","legal"],
+ url:"https://drive.google.com/drive/folders/1HPNaDUIVFsh4p9sy_o-1E8UTzSJMfdh9"},
+
+{title:"SMM Client Info — all accounts",cat:"Systems & Admin",owner:"Nicole",type:"Folder",
+ desc:"Parent folder for every managed social account: Alex, Coral Cove, Ferrum Athletic, G.J. Gardner, Gift of Dance, L Moore Aesthetics, Spas ETC, The Lakeside Nest.",
+ tags:["clients","smm","folder"],
+ url:"https://drive.google.com/drive/folders/1ktgm2WYwLfJW5F-bmrZKvwmSsPvdTK6V"},
+
+{title:"Wiki Files — Monday export",cat:"Systems & Admin",owner:"Ops",type:"Folder",
+ desc:"The exported Monday.com wiki. Bulk of the SOP library lives here — open it directly if something you need isn't indexed on this page yet.",
+ tags:["wiki","monday","export","folder","source"],
+ url:"https://drive.google.com/drive/folders/1lc4_HIR2aUhPMFskT1vkWN7yuaraAX9T"},
+
+{title:"General Ops SOPs — root folder",cat:"Systems & Admin",owner:"Ops",type:"Folder",
+ desc:"Top-level operations folder containing the Analytics SOP, Engagement, QC Assessment, and SMM Contracts subfolders.",
+ tags:["ops","folder","root"],
+ url:"https://drive.google.com/drive/folders/1nyZr4cgZjIu52WjXOC17aRMQRpzc6IER"},
+
+/* ---- Planning ---- */
+{title:"30-Day Internal Growth Roadmap",cat:"Planning",owner:"Chris",type:"Roadmap",
+ desc:"Live checklist covering the GHL setup, non-client email sequence, and merger announcement campaign. Partially complete — check the boxes before assuming a step is done.",
+ tags:["roadmap","ghl","email","campaign"],
+ url:"https://docs.google.com/document/d/167tpu7tDA65GA2xuFnntmnBIZK26IZHxL4B8XsHSBWs/edit"},
+
+{title:"Revenue Growth & Scalability Plan",cat:"Planning",owner:"Chris",type:"Strategy",
+ desc:"Path to consistent monthly revenue through high-margin recurring services — Meta Ads management and email marketing as the primary growth drivers, with standardized onboarding and reporting.",
+ tags:["strategy","revenue","retainers","meta-ads","scalability"],
+ url:"https://docs.google.com/document/d/13qyGLrgZsehaBIrrWNzQUHF4zIkTEeAF6LTGpVQvizY/edit"},
+
+{title:"Savannah Roadmap",cat:"Planning",owner:"Chris",type:"Roadmap",
+ desc:"Market expansion plan for the Savannah, GA territory.",
+ tags:["roadmap","expansion","savannah"],
+ url:"https://docs.google.com/document/d/1zr79Cu0gNIX7TH848Nru5MrSuo-UEGydqkG9pGyZW1s/edit"},
+
+{title:"2026 Outlook Overview",cat:"Planning",owner:"Chris",type:"Strategy",
+ desc:"Company direction and targets for 2026.",
+ tags:["strategy","targets","2026"],
+ url:"https://docs.google.com/document/d/1YCEi7dg2WBE9v5F_qU6hbMI9sFJ_RG4VijAibkUg0XY/edit"},
+
+{title:"2025 By the Numbers",cat:"Planning",owner:"Chris",type:"Reference",
+ desc:"Prior-year baseline — order volume, revenue, client count, average order value. The denominator for every 2026 target.",
+ tags:["metrics","baseline","2025"],
+ url:"https://docs.google.com/document/d/1WSc2z_MGoO_guQISUUrYtu2XsOEMKLqYZOeE3zh4vpc/edit"}
+
+];
+
+/* ============================================================
+   CONFIG — paste your published-sheet CSV URL here.
+   File → Share → Publish to web → choose the SOP tab →
+   Comma-separated values (.csv) → copy that link below.
+   Leave blank to run purely on the baked-in list above.
+   ============================================================ */
+const LOCAL_CSV_URL = "data/index.csv";  // synced from the sheet by GitHub Action
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSJ1VmcJWKK1qsjnqlYrlTjrEIid1Tx1QiwJGhyh20oliz7IRuAna1mYzzQBcdVL5eNV5OZsJlVZhqs/pub?gid=1260526284&single=true&output=csv";
+
+/* ============================================================
+   Engine
+   ============================================================ */
+let CATS = [];
+let active = "All";
+
+const qEl = document.getElementById("q");
+const chipsEl = document.getElementById("chips");
+const resEl = document.getElementById("results");
+const readEl = document.getElementById("readout");
+const srcEl = document.getElementById("source");
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function hi(text, term){
+  const safe = esc(text);
+  if(!term) return safe;
+  const rx = new RegExp("(" + term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") + ")","ig");
+  return safe.replace(rx,"<mark>$1</mark>");
+}
+
+function blob(d){
+  return [d.title,d.desc,d.cat,d.owner,d.type,(d.tags||[]).join(" ")].join(" ").toLowerCase();
+}
+
+/* First-seen category order, so the board groups the way the sheet is sorted */
+function recomputeCats(){
+  CATS = [];
+  DOCS.forEach(d => { if(d.cat && !CATS.includes(d.cat)) CATS.push(d.cat); });
+}
+
+/* --- minimal RFC-4180 CSV parser: handles quotes, commas, newlines --- */
+function parseCSV(text){
+  const rows = []; let row = [], val = "", q = false;
+  text = text.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
+  for(let i=0;i<text.length;i++){
+    const c = text[i];
+    if(q){
+      if(c === '"'){ if(text[i+1] === '"'){ val += '"'; i++; } else q = false; }
+      else val += c;
+    } else {
+      if(c === '"') q = true;
+      else if(c === ",") { row.push(val); val = ""; }
+      else if(c === "\n"){ row.push(val); rows.push(row); row = []; val = ""; }
+      else val += c;
+    }
+  }
+  if(val.length || row.length){ row.push(val); rows.push(row); }
+  return rows;
+}
+
+function rowsToDocs(rows){
+  if(!rows.length) return [];
+  const head = rows[0].map(h => h.trim().toLowerCase());
+  const idx = k => head.indexOf(k);
+  const iT=idx("title"), iD=idx("desc"), iC=idx("cat"), iO=idx("owner"),
+        iY=idx("type"), iG=idx("tags"), iU=idx("url"), iF=idx("flag");
+  const out = [];
+  for(let r=1;r<rows.length;r++){
+    const c = rows[r];
+    if(!c || !(c[iT]||"").trim()) continue;      // skip blank rows
+    out.push({
+      title:(c[iT]||"").trim(),
+      desc:(c[iD]||"").trim(),
+      cat:(c[iC]||"Uncategorized").trim(),
+      owner:(c[iO]||"").trim(),
+      type:(c[iY]||"Doc").trim(),
+      tags:(c[iG]||"").split(",").map(t=>t.trim()).filter(Boolean),
+      url:(c[iU]||"#").trim(),
+      flag:(c[iF]||"").trim()
+    });
+  }
+  return out;
+}
+
+function buildChips(){
+  const all = ["All",...CATS];
+  chipsEl.innerHTML = all.map(c=>{
+    const n = c==="All" ? DOCS.length : DOCS.filter(d=>d.cat===c).length;
+    return `<button class="chip" data-cat="${esc(c)}" aria-pressed="${c===active}">${esc(c)}<span class="n">${n}</span></button>`;
+  }).join("");
+  chipsEl.querySelectorAll(".chip").forEach(b=>{
+    b.onclick = () => { active = b.dataset.cat; buildChips(); render(); };
+  });
+}
+
+function render(){
+  const term = qEl.value.trim().toLowerCase();
+  let hits = DOCS.filter(d => (active==="All" || d.cat===active) && (!term || blob(d).includes(term)));
+
+  readEl.innerHTML = `<b>${hits.length}</b> of ${DOCS.length} documents`
+    + (active!=="All" ? ` &nbsp;·&nbsp; ${esc(active)}` : "")
+    + (term ? ` &nbsp;·&nbsp; matching “${esc(qEl.value.trim())}”` : "");
+
+  if(!hits.length){
+    resEl.innerHTML = `<div class="empty"><strong>Nothing matches that yet.</strong>
+      Try a broader word, or clear the category filter. If the document should exist, add a row to the sheet.</div>`;
+    return;
+  }
+
+  const order = CATS.filter(c => hits.some(d=>d.cat===c));
+  resEl.innerHTML = order.map(cat=>{
+    const items = hits.filter(d=>d.cat===cat);
+    return `<section class="group">
+      <div class="group-head"><h2>${esc(cat)}</h2><span>${items.length}</span></div>
+      <div class="grid">${items.map(d=>card(d,term)).join("")}</div>
+    </section>`;
+  }).join("");
+}
+
+function card(d,term){
+  const cls = "card" + (d.type==="Folder" ? " is-folder" : "") + (d.flag ? " is-dupe" : "");
+  return `<a class="${cls}" href="${esc(d.url)}" target="_blank" rel="noopener">
+    <div class="k"><span>${esc(d.type)} · ${esc(d.owner)}</span>${d.flag?`<span class="flag">${esc(d.flag)}</span>`:""}</div>
+    <h3>${hi(d.title,term)}</h3>
+    <p>${hi(d.desc,term)}</p>
+    <div class="tags">${(d.tags||[]).map(t=>`<span class="tag">${hi(t,term)}</span>`).join("")}</div>
+  </a>`;
+}
+
+function paint(){ recomputeCats(); buildChips(); render(); }
+
+function setSource(msg, tone){
+  if(!srcEl) return;
+  srcEl.textContent = msg;
+  srcEl.dataset.tone = tone || "";
+}
+
+/* --- boot: try the sheet, fall back to the baked list --- */
+async function tryCSV(url){
+  const res = await fetch(url, {cache:"no-store"});
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  const fresh = rowsToDocs(parseCSV(await res.text()));
+  if(!fresh.length) throw new Error("no rows parsed");
+  return fresh;
+}
+
+async function boot(){
+  paint(); // render baked list immediately so the page is never empty
+  const stamp = () => new Date().toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
+
+  // 1) local synced copy — works on any host, no cross-origin call
+  if(LOCAL_CSV_URL){
+    try{
+      DOCS = await tryCSV(LOCAL_CSV_URL); paint();
+      setSource(`${DOCS.length} documents · synced ${stamp()}`,"ok");
+      return;
+    }catch(e){ /* fall through to live sheet */ }
+  }
+
+  // 2) live sheet — used when opened as a local file, or if the sync file is missing
+  if(SHEET_CSV_URL){
+    setSource("Loading latest from the sheet…","");
+    try{
+      DOCS = await tryCSV(SHEET_CSV_URL); paint();
+      setSource(`Live from the sheet · ${DOCS.length} documents · loaded ${stamp()}`,"ok");
+      return;
+    }catch(e){
+      setSource("Couldn’t reach the sheet — showing the last built-in copy.","warn");
+      console.error("Sheet load failed:", e);
+      return;
+    }
+  }
+
+  setSource("Running on the built-in list.","warn");
+}
+
+qEl.addEventListener("input", render);
+document.addEventListener("keydown", e=>{
+  if(e.key==="/" && document.activeElement!==qEl){ e.preventDefault(); qEl.focus(); }
+  if(e.key==="Escape" && document.activeElement===qEl){ qEl.value=""; render(); qEl.blur(); }
+});
+
+boot();
+</script>
+</body>
+</html>
