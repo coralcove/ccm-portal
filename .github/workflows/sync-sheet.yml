@@ -1,0 +1,44 @@
+name: Sync SOP sheet
+
+# Keeps ops-a6a141ac/data/index.csv in step with the published Google Sheet,
+# so the hosted page never has to call Google from the browser.
+
+on:
+  schedule:
+    - cron: "0 11,23 * * *"   # 11:00 and 23:00 UTC daily (~7am & 7pm ET)
+  workflow_dispatch:           # lets you run it on demand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch published sheet
+        run: |
+          URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSJ1VmcJWKK1qsjnqlYrlTjrEIid1Tx1QiwJGhyh20oliz7IRuAna1mYzzQBcdVL5eNV5OZsJlVZhqs/pub?gid=1260526284&single=true&output=csv"
+          curl -sSL --fail --max-time 60 "$URL" -o ops-a6a141ac/data/index.csv
+          echo "Fetched $(wc -l < ops-a6a141ac/data/index.csv) lines."
+
+      - name: Reject empty or header-only pulls
+        run: |
+          LINES=$(wc -l < ops-a6a141ac/data/index.csv)
+          if [ "$LINES" -lt 2 ]; then
+            echo "::error::Sheet returned $LINES line(s) — refusing to commit a broken file."
+            exit 1
+          fi
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "sop-sync-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- ops-a6a141ac/data/index.csv; then
+            echo "No change."
+          else
+            git add ops-a6a141ac/data/index.csv
+            git commit -m "Sync SOP index from sheet ($(date -u +%Y-%m-%dT%H:%MZ))"
+            git push
+          fi
