@@ -430,10 +430,10 @@ const CONFIG = {
   REP_EMAIL:    'Nicole@coralcovemedia.com',
 
   // ── Airtable (READ-ONLY token — safe to leave in HTML) ──
-  AT_TOKEN:     'patEBUOCGoFVTtzD9.5385b5325b155838919052f3290c7b79e272dd699084d3cc5969530c5b5d15c4',   // Read-only PAT — create at airtable.com/create/tokens
-  AT_BASE:      'app7aL2o79DKFOrhT',                    // CCM Client Portal base ID
-  AT_CLIENT_ID:     'alex-the-realtor',                    // Client slug — used in Airtable formula filters
-  AT_CLIENT_REC_ID: 'recu0ftEYsvuSyBw2',               // Client record ID — used for linked-record writes
+  AT_TOKEN:     'patEBUOCGoFVTtzD9.5385b5325b155838919052f3290c7b79e272dd699084d3cc5969530c5b5d15c4',
+  AT_BASE:      'app7aL2o79DKFOrhT',
+  AT_CLIENT_ID:     'alex-the-realtor',                               // Client slug — used in Airtable formula filters
+  AT_CLIENT_REC_ID: 'recu0ftEYsvuSyBw2',                   // Alex Airtable record ID
 
   // ── Cloudflare Worker (proxies the write token — never expose write token here) ──
   WORKER_URL:   'https://ccm-portal-proxy.floral-sun-65b8.workers.dev',
@@ -604,10 +604,23 @@ async function fetchMetrics() {
   return data.records.map(rec => ({ id: rec.id, ...rec.fields }));
 }
 
+// ── RECAP TIMING ───────────────────────────────────
+// Show even-month recaps for 2 months: Jul-Aug → June, Sep-Oct → August, etc.
+function getRecapMonth() {
+  const now = new Date();
+  const m   = now.getMonth() + 1; // 1–12
+  const y   = now.getFullYear();
+  let rm = (m % 2 === 1) ? m - 1 : m - 2;
+  let ry = y;
+  if (rm <= 0) { rm += 12; ry--; }
+  return ['','January','February','March','April','May','June','July','August','September','October','November','December'][rm] + ' ' + ry;
+}
+
 // ── FETCH: RECAP ───────────────────────────────────
 async function fetchRecap() {
+  const targetMonth = getRecapMonth();
   const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/Recap`
-    + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',{status}='Live')`
+    + `?filterByFormula=AND({client_slug}='${CONFIG.AT_CLIENT_ID}',{month}='${encodeURIComponent(targetMonth)}')`
     + `&sort[0][field]=generated_at&sort[0][direction]=desc&maxRecords=1`;
   const r = await fetch(url, { headers: { Authorization: `Bearer ${CONFIG.AT_TOKEN}` } });
   if (!r.ok) throw new Error(`Airtable ${r.status}`);
@@ -615,14 +628,14 @@ async function fetchRecap() {
   if (!data.records.length) return null;
   const f = data.records[0].fields;
   return {
-    month:       f.month,
-    note:        f.note,
-    wins:        safeParse(f.wins,        []),
-    doing_more:  safeParse(f.doing_more,  []),
-    doing_less:  safeParse(f.doing_less,  []),
-    next_month:  safeParse(f.next_month,  []),
-    rep_name:    f.rep_name  || CONFIG.REP_NAME,
-    rep_title:   f.rep_title || 'Marketing Director, Coral Cove Media',
+    month:      f.month,
+    note:       f.note,
+    wins:       safeParse(f.wins,       []),
+    doing_more: safeParse(f.doing_more, []),
+    doing_less: safeParse(f.doing_less, []),
+    next_month: safeParse(f.next_month, []),
+    rep_name:   f.rep_name  || CONFIG.REP_NAME,
+    rep_title:  f.rep_title || 'Account Manager, Coral Cove Media',
   };
 }
 
@@ -840,10 +853,11 @@ async function loadRecap() {
   try {
     const recap = await fetchRecap();
     if (!recap) {
+      const tm = getRecapMonth();
       el.innerHTML = `<div class="empty-state">
         <div class="empty-icon">&#x1F4DD;</div>
-        <h3>No recap yet this month</h3>
-        <p>Your monthly recap will appear here on the 1st.<br>Nicole reviews it before it goes live.</p>
+        <h3>${esc(tm)} recap coming soon</h3>
+        <p>Nicole is reviewing your performance summary.<br>It'll appear here once approved.</p>
       </div>`; return;
     }
     let html = `<div class="recap-hero">
