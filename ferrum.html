@@ -1,4 +1,4 @@
-  <!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -259,7 +259,7 @@ body {
 @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .stat-card {
-  background: var(--white); border: 1px solid var(--gray-200);
+  background: white; border: 1px solid var(--gray-200);
   border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
 }
 .stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-400); margin-bottom: 8px; }
@@ -658,7 +658,7 @@ async function submitApproval(postRecordId, action, notes) {
   return r.json();
 }
 
-// ── RENDER: QUEUE ───────────────────────────────────
+// ── RENDER: QUEUE ──────────────────────────────────
 async function loadQueue() {
   const el = document.getElementById('queue-content');
   try {
@@ -724,7 +724,7 @@ function renderPostCard(p) {
 </div>`;
 }
 
-// ── QUEUE ACTIONS ───────────────────────────────────
+// ── QUEUE ACTIONS ──────────────────────────────────
 function toggleCap(id) {
   const el = document.getElementById(`cap-${id}`);
   const btn = el.nextElementSibling;
@@ -831,113 +831,7 @@ function renderMetricCard(m) {
     ? `<img class="metric-thumb" src="${esc(m.thumbnail_url)}" alt="${esc(m.post_title||'')}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="metric-thumb-ph" style="display:none">&#x1F4F7;</div>`
     : `<div class="metric-thumb-ph">&#x1F4F7;</div>`;
   return `<div class="metric-card ${m.is_win?'is-win':''}">
-    ${m.is_win ? '<div class="win-badge">&#x2B50; Win</divible'); }
-
-async function doApprove(id) {
-  const actEl  = document.getElementById(`act-${id}`);
-  const badgeEl = document.getElementById(`badge-${id}`);
-  const cardEl  = document.getElementById(`card-${id}`);
-  const btnA = actEl.querySelector('.btn-approve');
-  const btnR = actEl.querySelector('.btn-revision');
-  btnA.disabled = btnR.disabled = true; btnA.textContent = 'Sending…';
-  try {
-    await submitApproval(id, 'Approved', '');
-    cardEl.classList.add('approved');
-    badgeEl.className = 'status-badge badge-approved'; badgeEl.textContent = 'Approved';
-    actEl.innerHTML = `<div class="action-result">✓ Approved — Coral Cove Media has been notified</div>`;
-    bumpBadge(-1);
-  } catch(e) {
-    btnA.disabled = btnR.disabled = false; btnA.textContent = '✓ Approve';
-    alert('Something went wrong. Please try again or contact your rep.');
-  }
-}
-
-async function doRevision(id) {
-  const notes  = document.getElementById(`rn-${id}`).value.trim();
-  if (!notes) { document.getElementById(`rn-${id}`).focus(); return; }
-  const actEl  = document.getElementById(`act-${id}`);
-  const badgeEl = document.getElementById(`badge-${id}`);
-  const cardEl  = document.getElementById(`card-${id}`);
-  const rfEl   = document.getElementById(`rf-${id}`);
-  const subBtn = document.getElementById(`rsub-${id}`);
-  subBtn.disabled = true; subBtn.textContent = 'Sending…';
-  try {
-    await submitApproval(id, 'Revision Requested', notes);
-    cardEl.classList.add('revision');
-    badgeEl.className = 'status-badge badge-revision'; badgeEl.textContent = 'Changes Requested';
-    actEl.innerHTML = `<div class="action-result revision-sent">✎ Feedback sent — we'll be in touch soon</div>`;
-    rfEl.classList.remove('visible');
-    bumpBadge(-1);
-  } catch(e) {
-    subBtn.disabled = false; subBtn.textContent = 'Send Feedback';
-    alert('Something went wrong. Please try again or contact your rep.');
-  }
-}
-
-function bumpBadge(delta) {
-  const b = document.getElementById('queue-badge');
-  const n = parseInt(b.textContent || '0') + delta;
-  if (n <= 0) b.style.display = 'none'; else b.textContent = n;
-}
-
-// ── RENDER: ANALYTICS ──────────────────────────────
-async function loadAnalytics() {
-  analyticsLoaded = true;
-  const el = document.getElementById('analytics-content');
-  try {
-    const metrics = await fetchMetrics();
-    if (!metrics.length) {
-      el.innerHTML = `<div class="empty-state">
-        <div class="empty-icon">&#x1F4CA;</div>
-        <h3>Analytics coming soon</h3>
-        <p>Instagram data syncs nightly. Check back tomorrow for your first report.</p>
-      </div>`; return;
-    }
-    const total  = metrics.length;
-    const avgR   = Math.round(metrics.reduce((a, m) => a + (m.reach||0), 0) / total);
-    const avgE   = (metrics.reduce((a, m) => a + (m.eng_rate||0), 0) / total).toFixed(1);
-    const wins   = metrics.filter(m => m.is_win);
-    const top    = metrics.reduce((a, m) => (!a || (m.reach||0) > (a.reach||0)) ? m : a, null);
-
-    let html = `<div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">Posts This Month</div><div class="stat-value">${total}</div><div class="stat-sub">Last 30 days</div></div>
-      <div class="stat-card"><div class="stat-label">Avg Reach</div><div class="stat-value">${fmtN(avgR)}</div><div class="stat-sub">Per post</div></div>
-      <div class="stat-card"><div class="stat-label">Avg Engagement</div><div class="stat-value">${avgE}%</div><div class="stat-sub">Industry avg: 1.5%</div></div>
-      <div class="stat-card"><div class="stat-label">Content Wins</div><div class="stat-value">${wins.length}</div><div class="stat-sub">High-performing posts</div></div>
-    </div>`;
-
-    if (top) html += `<div class="win-spotlight">
-      <div class="win-icon">&#x1F3C6;</div>
-      <div><div class="win-label">Top Post This Month</div>
-        <div class="win-title">${esc(top.post_title||'Untitled')}</div>
-        <div class="win-note-txt">${fmtN(top.reach||0)} reach &middot; ${(top.eng_rate||0).toFixed(1)}% eng &middot; ${top.saves||0} saves${top.win_note ? ' &middot; ' + esc(top.win_note) : ''}</div>
-      </div>
-    </div>`;
-
-    html += `<div class="metrics-grid">${metrics.map(renderMetricCard).join('')}</div>`;
-    el.innerHTML = html;
-  } catch(e) {
-    el.innerHTML = `<div class="error-banner">Unable to load analytics â please refresh. (${esc(e.message)})</div>`;
-  }
-}
-
-function renderMetricCard(m) {
-  const date = m.timestamp ? new Date(m.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
-  const imgEl = m.thumbnail_url
-    ? `<img class="metric-thumb" src="${esc(m.thumbnail_url)}" alt="${esc(m.post_title||'')}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="metric-thumb-ph" style="display:none">&#x1F4F7;</div>`
-    : `<div class="metric-thumb-ph">&#x1F4F7;</div>`;
-  return `<div class="metric-card ${m.is_win?'is-win':''}">
-    ${m.is_win ? '<div class="win-badge">&#x2B50; Win</divv class="stat-label">Posts This Month</div><div class="stat-value">${total}</div><div class="stat-sub">Last 30 days</div></div>
-      <div class="stat-card"><div class="stat-label">Avg Reach</div><div class="stat-value">${fmtN(avgR)}</div><div class="stat-sub">Per post</div></div>
-      <div class="stat-card"><div class="stat-label">Avg Engagement</div><div class="stat-value">${avgE}%</div><div class="stat-sub">Industry avg: 1.5%</div></div>
-      <div class="stat-card"><div class="stat-label">Content Wins</div><div class="stat-value">${wins.length}</div><div class="stat-sub">High-performing posts</div></div>
-    </div>`;
-
-    if (top) html += `<div class="win-spotlight">
-      <div class="win-icon">&#x1F3C6;</div>
-      <div><div class="win-label">Top Post This Month</div>
-        <div class="win-title">${esc(top.post_title||'Untitled')}</div>
-        <div class="win-note-txt">${fmtN(top.reach||0)} reach &middot; ${(top.eng_rate||0).toFixed(1)}% eng &middot; ${top.saves||0} saves${top>' : ''}
+    ${m.is_win ? '<div class="win-badge">&#x2B50; Win</div>' : ''}
     ${imgEl}
     <div class="metric-body">
       <div class="metric-title">${esc(m.post_title||'Post')}</div>
