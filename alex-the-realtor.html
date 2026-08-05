@@ -865,7 +865,7 @@ async function loadRecap() {
     if (recap.wins?.length) html += `<div class="recap-section">
       <div class="recap-section-title">&#x1F3C6; This Month&rsquo;s Wins</div>
       <div class="wins-list">${recap.wins.map(w=>`
-        <div class="win-row"><div class="win-check">&#x2713;</div><span>${esc(w)}</span></div>`).join('')}
+        <div class="win-row"><div class="win-check">&#x2713;</div><span>${esc(typeof w==='string'?w:(w.text||''))}</span></div>`).join('')}
       </div></div>`;
 
     if (recap.doing_more?.length || recap.doing_less?.length) {

@@ -202,15 +202,6 @@ body {
   background: var(--gray-50); border: 1px solid var(--gray-200);
   border-radius: 8px; padding: 10px 12px; font-size: 13px; color: var(--gray-500);
 }
-.btn-view-design {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--blue-light); color: var(--blue);
-  border: 1px solid rgba(61,126,170,0.3); border-radius: 8px;
-  padding: 8px 14px; font-size: 13px; font-weight: 600;
-  text-decoration: none; transition: background 0.15s, color 0.15s;
-}
-.btn-view-design:hover { background: var(--blue); color: white; }
-.design-link { color: var(--coral); text-decoration: underline; word-break: break-all; }
 
 .post-actions {
   padding: 12px 20px 16px; border-top: 1px solid var(--gray-200);
@@ -682,10 +673,7 @@ function renderPostCard(p) {
   </div>` : ''}
   ${p.preview_note ? `
   <div class="preview-note">
-    ${/^https?:\/\/\S+$/.test((p.preview_note||'').trim())
-      ? `<a class="btn-view-design" href="${esc(p.preview_note.trim())}" target="_blank" rel="noopener">&#x1F3A8; View Design &rarr;</a>`
-      : `<div class="preview-note-inner">&#x1F4CE; ${linkify(p.preview_note)}</div>`
-    }
+    <div class="preview-note-inner">&#x1F4CE; ${esc(p.preview_note)}</div>
   </div>` : ''}
   <div class="post-actions" id="act-${p.id}">
     <button class="btn-approve"   onclick="doApprove('${p.id}')">&#x2713; Approve</button>
@@ -845,7 +833,7 @@ async function loadRecap() {
     if (recap.wins?.length) html += `<div class="recap-section">
       <div class="recap-section-title">&#x1F3C6; This Month&rsquo;s Wins</div>
       <div class="wins-list">${recap.wins.map(w=>`
-        <div class="win-row"><div class="win-check">&#x2713;</div><span>${esc(w)}</span></div>`).join('')}
+        <div class="win-row"><div class="win-check">&#x2713;</div><span>${esc(typeof w==='string'?w:(w.text||''))}</span></div>`).join('')}
       </div></div>`;
 
     if (recap.doing_more?.length || recap.doing_less?.length) {
@@ -880,12 +868,6 @@ function esc(s) {
   return String(s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-function linkify(text) {
-  const parts = String(text).split(/(https?:\/\/\S+)/gi);
-  return parts.map((p,i) => i%2===1
-    ? `<a href="${esc(p)}" target="_blank" rel="noopener" class="design-link">${esc(p)}</a>`
-    : esc(p)).join('');
 }
 function fmtN(n) {
   if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
