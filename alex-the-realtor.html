@@ -605,15 +605,11 @@ async function fetchMetrics() {
 }
 
 // ── RECAP TIMING ───────────────────────────────────
-// Show even-month recaps for 2 months: Jul-Aug → June, Sep-Oct → August, etc.
+// Returns previous calendar month (e.g. July 2026 when current month is August 2026)
 function getRecapMonth() {
-  const now = new Date();
-  const m   = now.getMonth() + 1; // 1–12
-  const y   = now.getFullYear();
-  let rm = (m % 2 === 1) ? m - 1 : m - 2;
-  let ry = y;
-  if (rm <= 0) { rm += 12; ry--; }
-  return ['','January','February','March','April','May','June','July','August','September','October','November','December'][rm] + ' ' + ry;
+  const d = new Date();
+  d.setMonth(d.getMonth() - 1);
+  return d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
 }
 
 // ── FETCH: RECAP ───────────────────────────────────
