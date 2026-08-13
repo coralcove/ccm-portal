@@ -5,43 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Edit Request — Coral Cove Media</title>
-<meta name="theme-color" content="#0d3b45">
+<meta name="theme-color" content="#F45841">
 <meta name="description" content="Submit an edit request to the Coral Cove Media production team.">
 <style>
   /* ------------------------------------------------------------------
-     BRAND TOKENS — swap these four hexes for the exact Coral Cove values
-     and the whole page follows.
+     BRAND TOKENS
+     --brand is the Coral Cove coral, #F45841. Everything else is a
+     neutral built to sit against it. Change --brand and the page follows.
   ------------------------------------------------------------------ */
   :root{
-    --deep:#0d3b45;        /* headers, primary text */
-    --sea:#1c6b74;         /* buttons, accents */
-    --coral:#e8674c;       /* urgency, focus rings */
-    --sand:#f6f1e9;        /* page background */
+    --brand:#F45841;       /* masthead, primary button, selected states */
+    --brand-deep:#C43F2B;  /* links and small text that needs more weight */
+    --ink:#2A1004;         /* body copy, and text on top of --brand */
+    --sand:#FBF7F2;        /* page background */
     --card:#ffffff;
-    --line:#e2dcd2;
-    --muted:#5f6b6d;
-    --ok:#2f7a5b;
+    --line:#E6DED6;
+    --muted:#5F5350;
     --radius:14px;
-    --shadow:0 1px 2px rgba(13,59,69,.06), 0 8px 24px rgba(13,59,69,.08);
+    --shadow:0 1px 2px rgba(42,16,4,.06), 0 8px 24px rgba(42,16,4,.08);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
     background:var(--sand);
-    color:var(--deep);
+    color:var(--ink);
     font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
     padding:0 0 48px;
   }
   .wrap{max-width:560px;margin:0 auto;padding:0 18px}
   header.masthead{
-    background:var(--deep);color:#fff;padding:26px 0 22px;margin-bottom:22px;
+    background:var(--brand);color:var(--ink);padding:26px 0 22px;margin-bottom:22px;
   }
   .mark{
-    font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.75;margin:0 0 8px;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.7;margin:0 0 8px;
   }
   h1{font-size:26px;line-height:1.2;margin:0 0 8px;font-weight:650;letter-spacing:-.01em}
-  .lede{margin:0;color:#cfe0e2;font-size:15px}
+  .lede{margin:0;color:var(--ink);opacity:.85;font-size:15px}
   .card{
     background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
     box-shadow:var(--shadow);padding:20px 18px;margin-bottom:16px;
@@ -51,13 +51,13 @@
   label{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
   .hint{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
   input[type=text],input[type=tel],input[type=email],input[type=url],textarea,select{
-    width:100%;padding:13px 14px;font:inherit;color:var(--deep);
+    width:100%;padding:13px 14px;font:inherit;color:var(--ink);
     background:#fff;border:1.5px solid var(--line);border-radius:10px;
     -webkit-appearance:none;appearance:none;
   }
   textarea{min-height:132px;resize:vertical}
   input:focus,textarea:focus,select:focus{
-    outline:none;border-color:var(--sea);box-shadow:0 0 0 3px rgba(28,107,116,.15);
+    outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(244,88,65,.28);
   }
   .chips{display:flex;flex-wrap:wrap;gap:8px}
   .chip input{position:absolute;opacity:0;pointer-events:none}
@@ -65,38 +65,38 @@
     display:inline-block;padding:10px 14px;border:1.5px solid var(--line);border-radius:999px;
     background:#fff;font-size:15px;cursor:pointer;user-select:none;
   }
-  .chip input:checked + span{background:var(--deep);border-color:var(--deep);color:#fff}
-  .chip input:focus-visible + span{box-shadow:0 0 0 3px rgba(28,107,116,.25)}
+  .chip input:checked + span{background:var(--ink);border-color:var(--ink);color:#fff}
+  .chip input:focus-visible + span{box-shadow:0 0 0 3px rgba(244,88,65,.35)}
   .radios{display:grid;gap:8px}
   .radio{
     display:flex;gap:11px;align-items:flex-start;padding:13px 14px;
     border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;
   }
-  .radio input{margin:2px 0 0;accent-color:var(--sea);width:18px;height:18px;flex:none}
+  .radio input{margin:2px 0 0;accent-color:var(--brand-deep);width:18px;height:18px;flex:none}
   .radio strong{display:block;font-weight:600;font-size:15px}
   .radio em{display:block;font-style:normal;color:var(--muted);font-size:13px}
-  .radio:has(input:checked){border-color:var(--sea);background:#f3f9f9}
-  .radio.urgent:has(input:checked){border-color:var(--coral);background:#fdf2ef}
+  .radio:has(input:checked){border-color:var(--brand-deep);background:#FDF0EC}
+  .radio.urgent:has(input:checked){border-color:var(--brand);background:#FDE7E2;box-shadow:inset 3px 0 0 var(--brand)}
   button.submit{
-    width:100%;padding:16px;font:inherit;font-weight:650;font-size:17px;color:#fff;
-    background:var(--sea);border:0;border-radius:12px;cursor:pointer;
+    width:100%;padding:16px;font:inherit;font-weight:700;font-size:17px;color:var(--ink);
+    background:var(--brand);border:0;border-radius:12px;cursor:pointer;
   }
   button.submit:disabled{opacity:.6;cursor:default}
   button.submit:active{transform:translateY(1px)}
   .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:14px;line-height:1.6}
-  .foot a{color:var(--sea)}
+  .foot a{color:var(--brand-deep)}
   .err{
-    display:none;background:#fdf2ef;border:1px solid #f3c9be;color:#8c3521;
+    display:none;background:#FDE7E2;border:1px solid #F3BCB0;color:#8C2A16;
     border-radius:10px;padding:12px 14px;font-size:14px;margin-bottom:16px;
   }
   .err.show{display:block}
-  .invalid{border-color:var(--coral)!important}
+  .invalid{border-color:var(--brand)!important}
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
   /* success */
   .done{display:none;text-align:center;padding:8px 4px 4px}
   .done.show{display:block}
   .tick{
-    width:56px;height:56px;border-radius:50%;background:var(--ok);color:#fff;
+    width:56px;height:56px;border-radius:50%;background:var(--brand);color:var(--ink);
     display:flex;align-items:center;justify-content:center;font-size:30px;margin:6px auto 16px;
   }
   .ref{
@@ -105,9 +105,9 @@
     padding:8px 12px;font-size:15px;letter-spacing:.05em;margin:4px 0 18px;
   }
   .steps{text-align:left;margin:0;padding:0;list-style:none}
-  .steps li{position:relative;padding:0 0 14px 26px;color:var(--deep);font-size:15px}
+  .steps li{position:relative;padding:0 0 14px 26px;color:var(--ink);font-size:15px}
   .steps li:before{
-    content:"";position:absolute;left:6px;top:7px;width:8px;height:8px;border-radius:50%;background:var(--sea);
+    content:"";position:absolute;left:6px;top:7px;width:8px;height:8px;border-radius:50%;background:var(--brand);
   }
   @media (prefers-reduced-motion:no-preference){
     .card,.done{transition:opacity .18s ease}
