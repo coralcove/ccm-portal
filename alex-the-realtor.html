@@ -593,11 +593,9 @@ async function fetchPosts() {
 
 // ── FETCH: IG METRICS ──────────────────────────────
 async function fetchMetrics() {
-  const d = new Date(); d.setDate(d.getDate() - 30);
-  const cutoff = d.toISOString().slice(0, 10);
   const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/IG%20Metrics`
-    + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',IS_AFTER({timestamp},'${cutoff}'))`
-    + `&sort[0][field]=timestamp&sort[0][direction]=desc`;
+    + `?filterByFormula={client}='${CONFIG.AT_CLIENT_ID}'`
+    + `&sort[0][field]=timestamp&sort[0][direction]=desc&maxRecords=30`;
   const r = await fetch(url, { headers: { Authorization: `Bearer ${CONFIG.AT_TOKEN}` } });
   if (!r.ok) throw new Error(`Airtable ${r.status}`);
   const data = await r.json();

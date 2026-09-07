@@ -202,15 +202,6 @@ body {
   background: var(--gray-50); border: 1px solid var(--gray-200);
   border-radius: 8px; padding: 10px 12px; font-size: 13px; color: var(--gray-500);
 }
-.btn-view-design {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--blue-light); color: var(--blue);
-  border: 1px solid rgba(61,126,170,0.3); border-radius: 8px;
-  padding: 8px 14px; font-size: 13px; font-weight: 600;
-  text-decoration: none; transition: background 0.15s, color 0.15s;
-}
-.btn-view-design:hover { background: var(--blue); color: white; }
-.design-link { color: var(--coral); text-decoration: underline; word-break: break-all; }
 
 .post-actions {
   padding: 12px 20px 16px; border-top: 1px solid var(--gray-200);
@@ -580,11 +571,9 @@ async function fetchPosts() {
 
 // ── FETCH: IG METRICS ──────────────────────────────
 async function fetchMetrics() {
-  const d = new Date(); d.setDate(d.getDate() - 30);
-  const cutoff = d.toISOString().slice(0, 10);
   const url = `https://api.airtable.com/v0/${CONFIG.AT_BASE}/IG%20Metrics`
-    + `?filterByFormula=AND({client}='${CONFIG.AT_CLIENT_ID}',IS_AFTER({timestamp},'${cutoff}'))`
-    + `&sort[0][field]=timestamp&sort[0][direction]=desc`;
+    + `?filterByFormula={client}='${CONFIG.AT_CLIENT_ID}'`
+    + `&sort[0][field]=timestamp&sort[0][direction]=desc&maxRecords=30`;
   const r = await fetch(url, { headers: { Authorization: `Bearer ${CONFIG.AT_TOKEN}` } });
   if (!r.ok) throw new Error(`Airtable ${r.status}`);
   const data = await r.json();
@@ -682,10 +671,7 @@ function renderPostCard(p) {
   </div>` : ''}
   ${p.preview_note ? `
   <div class="preview-note">
-    ${/^https?:\/\/\S+$/.test((p.preview_note||'').trim())
-      ? `<a class="btn-view-design" href="${esc(p.preview_note.trim())}" target="_blank" rel="noopener">&#x1F3A8; View Design &rarr;</a>`
-      : `<div class="preview-note-inner">&#x1F4CE; ${linkify(p.preview_note)}</div>`
-    }
+    <div class="preview-note-inner">&#x1F4CE; ${esc(p.preview_note)}</div>
   </div>` : ''}
   <div class="post-actions" id="act-${p.id}">
     <button class="btn-approve"   onclick="doApprove('${p.id}')">&#x2713; Approve</button>
@@ -886,12 +872,6 @@ function esc(s) {
   return String(s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-function linkify(text) {
-  const parts = String(text).split(/(https?:\/\/\S+)/gi);
-  return parts.map((p,i) => i%2===1
-    ? `<a href="${esc(p)}" target="_blank" rel="noopener" class="design-link">${esc(p)}</a>`
-    : esc(p)).join('');
 }
 function fmtN(n) {
   if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
